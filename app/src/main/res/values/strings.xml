@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Calligraphy</string>
+    
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="alphabet">字母表</string>
+    <string name="tips">书写技巧</string>
+
+    <string name="roundhand_spe_des">圆体字母由连续的曲线组成，显得十分圆润、流畅，书写能表现出抒情舞蹈的姿态，给人以飘逸柔情的美感。</string>
+    <string name="roundhand_alphabet">圆体字母表</string>
+    <string name="roundhand_tip_1">书写圆体要注意圆度，运笔要圆润，少棱角，起笔和落笔要轻。</string>
+    <string name="roundhand_tip_2">书写圆体字母时底线要直。</string>
+    <string name="roundhand_tip_3">字母的中心线要一致。</string>
+    <string name="roundhand_tip_4">连写是表现圆体书写的重要书写手段，表面上看起来在书写圆体时笔尖一直没有离开纸面，直到一个单词写完,其实有时连续的笔画并非一次完成，其中有很多抬笔的过程。当书写时后面出现 a、c、d、g、o、q 时，必须抬笔进行相靠连写。</string>
+    <string name="roundhand_tip_5">圆体句子书写时，在写好每个单词的基础上，一气呵成，词距不宜过大，以放得下一个小写字母 a 为间距比较合适。</string>
+
+    <string name="italy_spe_des">意大利体又称斜体行书，其特点是倾斜。它通过挺拔的竖笔、秀长的椭圆、尖尖的棱角、粗细的变化体现出即洒脱又不失庄重的风格，给人以苍劲、挺拔、浑厚的感觉。</string>
+    <string name="italy_alphabet">意大利体字母表</string>
+    <string name="italy_tip_1">在书写意大利体字母时，下笔时笔尖呈45度左右角度，有些圆弧笔画可以两笔完成，如：C、G、O、Q、S 等，而且方向也不相同，第一笔有时是向右运笔。</string>
+    <string name="italy_tip_2">书写意大利体，可采用软硬适中的平头钢笔尖、宽头竹笔、羚管笔书写，能写出带有粗细变化的字母。把普通软硬适中的蘸水钢笔尖剪齐磨光后也能使用，点状笔尖不宜用来书写意大利体。</string>
+    <string name="italy_tip_3">书写意大利体字母时，要把握住相互间的比例，同时注意笔顺，特别是小写字母 i、f、j、t 应是先写竖笔后写点横。</string>
+    <string name="italy_tip_4">连写是书写意大利体成败的关键。意大利体中连写较为讲究，可分为不连写、斜连写和横连写三种</string>
+    <string name="italy_tip_4_a">● 不连写。\n全部大写字母和小写字母中的 b、g、j、p、q、r、x、y、z 不跟后面字母连写，因为这些字母的落笔有的在左边或者落笔已经到了第四条线上，所以不能跟后面连写，有的落笔虽然在字母左边，
+            但如果和后面字母连写则会造成字母混淆的错误。如果后面字母的起笔在第一条线上，则同样不能连写。</string>
+    <string name="italy_tip_4_b">● 斜连写\n字母 a、c、d、e、h、i、k、l、m、n、s、u 可以跟字母 a、c、d、e、g、i、m、n、o、p、r、s、u、v、w、x、y 斜连写。有的是直接斜连写，即前一个字母的落笔刚好是后一个字母的起笔，不必中断。</string>
+    <string name="italy_tip_4_c">但有时看起来是笔画相连着，但实际上书写时先将第一个字母写好，重新起笔写后一个字母，在运笔时有意将笔画跟前一个字母的落笔靠上去，形成相靠斜连写。可以跟前面相靠斜连写的字母有：a、c、d、e、g、o、q 。</string>
+    <string name="italy_tip_4_d">● 横连写\n当前一个字母的落笔在第二条线上时，且后一个字母的起笔也刚好在第二条线上时，这样就可以形成直接横连写。
+            字母 f、o、t、v、w 可以跟 f、i、m、n、o、p、r、t、u、v、w、x、y 直接横连写，当然两个 f 和两个 t 以及 f 和 t 相连时两个横笔一道写也形成了直接横连写。</string>
+    <string name="italy_tip_4_e">但有时前一个字母的落笔在第二条线上时，在写后一个字母时可以跟前面的落笔靠上去，这样就形成了相靠横连写。可以跟前面字母相靠横连写的字母有 a、d、e、g、q、s 。</string>
+
+    <string name="handprinted_spe_des">手写印刷体是一种十分接近印刷体的书写体。手写印刷体秀中带刚，挺中带园，排列整齐，毫不做作，简洁明快。手写印刷体没有连写的技巧，但十分整齐，书写时速度也不慢。</string>
+    <string name="handprinted_alphabet">手写印刷体字母表</string>
+    <string name="handprinted_tip_1">手写印刷体字母宽度大，一般来说字母 a 与 b 的高度比为 1：1.5 左右。圆弧要园，少带棱角。</string>
+    <string name="handprinted_tip_2">书写时底线一定要齐，字母高度要一致，中心线要平行。</string>
+    <string name="handprinted_tip_3">手写印刷体可以是斜写的也可以是直立的。</string>
+
+    <string name="calligraphy">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;书法在英文里叫 calligraphy ，来源于希腊文，相当于 “好”、“美丽”、“画画” 等字眼，即优美的书写。它包括各种书写的，涂画绘写的和设计的书写内容。
+            英文书法必须是很好的书写，并获得书法家承认的艺术品。它涉及字形知识及书写技巧、工具材料的应用；要求书写各部分布局恰当，比例协调，适度进行夸张变化。一幅好的英文书法作品跟东方书法一样，
+            能表达一种抽象的意境，启迪人们的思维，给人以一种趣味无穷的美的享受。\n&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;英文书法的地位虽不像东方书法那样重要，但并非说没有它的一席之地。英文书法也有它悠久的历史及其发展变化的过程，也有它的
+            重要的书法家、代表作和专门的研究组织。通过规范的书写训练，能培养人的严谨的治学精神，提高对艺术的鉴赏水准和品味。从对一个人的素养要求看，学习英文书写的意义永远不只限于书写本身。</string>
+    <string name="flourishing">Flourishing \nFlourishing 又称加花，简称 FL 。\n FL 在书写中主要起装饰性的作用，分为点尖FL和平尖FL。</string>
+    <string name="fl_point">点尖 FL \n点尖 FL 的范围主要包括画鸟（等其它动物），画玫瑰等。</string>
+    <string name="fl_plain">平尖 FL \n平尖 FL 的主要内容是平行并交错的Cadels。</string>
+
+    <string name="op">Ornamental Penmanship</string>
+    <string name="spen">Spencerian Script</string>
+    <string name="bp">Business Penmanship</string>
+    <string name="gothic">Gothic</string>
+</resources>

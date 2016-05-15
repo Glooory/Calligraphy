@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tab_titles">
+        <item>简介</item>
+        <item>字母表</item>
+        <item>书写技巧</item>
+    </string-array>
+</resources>
