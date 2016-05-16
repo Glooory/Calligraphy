@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.Utils.Constants;
+import com.glooory.calligraphy.Constants.Constants;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -96,18 +96,20 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_calligraphy) {
             Intent intentCalli = new Intent(MainActivity.this, UniversalActivity.class);
-            intentCalli.putExtra(Constants.FRAGPARAM, 0);
+            intentCalli.putExtra(Constants.FRAGMENT_INDEX, Constants.CALLIFRAG);
             startActivity(intentCalli);
         } else if (id == R.id.nav_other_font) {
             Intent intentOther = new Intent(MainActivity.this, UniversalActivity.class);
-            intentOther.putExtra(Constants.FRAGPARAM, 1);
+            intentOther.putExtra(Constants.FRAGMENT_INDEX, Constants.OTHERFRAG);
             startActivity(intentOther);
         } else if (id == R.id.nav_flourishing) {
             Intent intentFlouri = new Intent(MainActivity.this, UniversalActivity.class);
-            intentFlouri.putExtra(Constants.FRAGPARAM, 2);
+            intentFlouri.putExtra(Constants.FRAGMENT_INDEX, Constants.FLOURIFRAG);
             startActivity(intentFlouri);
         } else if (id == R.id.nav_more_piece) {
-
+            Intent intentMoreWorks = new Intent(MainActivity.this, GridviewActivity.class);
+            intentMoreWorks.putExtra(Constants.FRAGMENT_INDEX, Constants.MOREWORKS);
+            startActivity(intentMoreWorks);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

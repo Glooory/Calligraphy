@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.Utils.Constants;
+import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.fragments.CalligraphyFragment;
 import com.glooory.calligraphy.fragments.FlourishingFragment;
 import com.glooory.calligraphy.fragments.OtherfontsFragment;
@@ -31,7 +31,7 @@ public class UniversalActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             fragment = getFragment(savedInstanceState.getInt(STATE_FRAG));
         } else {
-            int type = getIntent().getIntExtra(Constants.FRAGPARAM, 0);
+            int type = getIntent().getIntExtra(Constants.FRAGMENT_INDEX, Constants.CALLIFRAG);
             fragment = getFragment(type);
         }
 
