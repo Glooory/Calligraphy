@@ -12,8 +12,11 @@
         android:paddingRight="8dp">
 
         <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_op"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true">
 
@@ -26,8 +29,8 @@
                     style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="4dp"
                     android:text="@string/op"
                     android:textColor="@color/colorPrimaryText" />
 
@@ -43,9 +46,12 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_spen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true">
 
@@ -58,8 +64,8 @@
                     style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="4dp"
                     android:text="@string/spen"
                     android:textColor="@color/colorPrimaryText" />
 
@@ -75,9 +81,12 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_bp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true">
 
@@ -90,8 +99,8 @@
                     style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="4dp"
                     android:text="@string/bp"
                     android:textColor="@color/colorPrimaryText" />
 
@@ -108,9 +117,12 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_gothic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true">
 
@@ -123,8 +135,8 @@
                     style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="4dp"
                     android:text="@string/gothic"
                     android:textColor="@color/colorPrimaryText" />
 

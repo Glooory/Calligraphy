@@ -6,6 +6,11 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="transition_name">imgtran</string>
+    <string name="italic_tran_name">italic</string>
+    <string name="roundhand_tran_name">roundhand</string>
+    <string name="handprinted_tran_name">handprinted</string>
+
     <string name="alphabet">字母表</string>
     <string name="tips">书写技巧</string>
 
@@ -14,7 +19,7 @@
     <string name="roundhand_tip_1">书写圆体要注意圆度，运笔要圆润，少棱角，起笔和落笔要轻。</string>
     <string name="roundhand_tip_2">书写圆体字母时底线要直。</string>
     <string name="roundhand_tip_3">字母的中心线要一致。</string>
-    <string name="roundhand_tip_4">连写是表现圆体书写的重要书写手段，表面上看起来在书写圆体时笔尖一直没有离开纸面，直到一个单词写完,其实有时连续的笔画并非一次完成，其中有很多抬笔的过程。当书写时后面出现 a、c、d、g、o、q 时，必须抬笔进行相靠连写。</string>
+    <string name="roundhand_tip_4">连写是表现圆体书写的重要书写手段，表面上看起来在书写圆体时笔尖一直没有离开纸面，直到一个单词写完，其实有时连续的笔画并非一次完成，其中有很多抬笔的过程。当书写时后面出现 a、c、d、g、o、q 时，必须抬笔进行相靠连写。</string>
     <string name="roundhand_tip_5">圆体句子书写时，在写好每个单词的基础上，一气呵成，词距不宜过大，以放得下一个小写字母 a 为间距比较合适。</string>
 
     <string name="italy_spe_des">意大利体又称斜体行书，其特点是倾斜。它通过挺拔的竖笔、秀长的椭圆、尖尖的棱角、粗细的变化体现出即洒脱又不失庄重的风格，给人以苍劲、挺拔、浑厚的感觉。</string>
@@ -49,4 +54,6 @@
     <string name="spen">Spencerian Script</string>
     <string name="bp">Business Penmanship</string>
     <string name="gothic">Gothic</string>
+
+    <string name="declaration">本软件内容参考《英文书法范典》（闵志平、朱淑贤编著）一书及百度圆体英文吧，纯属个人爱好使用，如果喜欢请购买正版书籍。</string>
 </resources>

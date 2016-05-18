@@ -15,7 +15,7 @@ import com.glooory.calligraphy.adapters.ItalicAdapter;
 /**
  * Created by Glooo on 2016/5/10 0010.
  */
-public class ItalyAlpFragment extends Fragment {
+public class ItalicAlpFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private ItalicAdapter mAdapter;

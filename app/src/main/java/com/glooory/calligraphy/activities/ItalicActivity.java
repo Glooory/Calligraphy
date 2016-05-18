@@ -1,5 +1,6 @@
 package com.glooory.calligraphy.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,11 +9,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.glooory.calligraphy.R;
+import com.glooory.calligraphy.fragments.ItalicAlpFragment;
 import com.glooory.calligraphy.fragments.ItalicDesFragment;
-import com.glooory.calligraphy.fragments.ItalyAlpFragment;
-import com.glooory.calligraphy.fragments.ItalyTipsFragment;
+import com.glooory.calligraphy.fragments.ItalicTipsFragment;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -63,6 +65,8 @@ public class ItalicActivity extends AppCompatActivity implements MaterialTabList
         }
     }
 
+
+
     @Override
     public void onTabSelected(MaterialTab tab) {
         mPager.setCurrentItem(tab.getPosition());
@@ -94,10 +98,10 @@ public class ItalicActivity extends AppCompatActivity implements MaterialTabList
                     fragment = new ItalicDesFragment();
                     break;
                 case TAB_ALP:
-                    fragment = new ItalyAlpFragment();
+                    fragment = new ItalicAlpFragment();
                     break;
                 case TAB_TIPS:
-                    fragment = new ItalyTipsFragment();
+                    fragment = new ItalicTipsFragment();
                     break;
             }
             return fragment;
@@ -108,5 +112,27 @@ public class ItalicActivity extends AppCompatActivity implements MaterialTabList
             return 3;
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                finishAfterTransition();
+                return true;
+            } else {
+                super.onBackPressed();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

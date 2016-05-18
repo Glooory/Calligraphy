@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_calligraphy"
-        android:icon="@drawable/ic_menu_camera"
+        android:icon="@mipmap/ic_calligraphy"
         android:title="英文书法" />
     <item
         android:id="@+id/nav_other_font"
-        android:icon="@drawable/ic_menu_gallery"
+        android:icon="@mipmap/ic_other_fonts"
         android:title="其他字体" />
     <item
         android:id="@+id/nav_flourishing"
-        android:icon="@drawable/ic_menu_slideshow"
+        android:icon="@mipmap/ic_flourishing"
         android:title="装饰加花" />
     <item
         android:id="@+id/nav_more_piece"
-        android:icon="@drawable/ic_menu_manage"
+        android:icon="@mipmap/ic_more_works"
         android:title="作品欣赏" />
 </menu>

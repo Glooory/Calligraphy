@@ -1,16 +1,19 @@
 package com.glooory.calligraphy.activities;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.fragments.CalligraphyFragment;
 import com.glooory.calligraphy.fragments.FlourishingFragment;
 import com.glooory.calligraphy.fragments.OtherfontsFragment;
@@ -91,7 +94,32 @@ public class UniversalActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_flourishing_more) {
+            Intent intent = new Intent(UniversalActivity.this, GridviewActivity.class);
+            intent.putExtra(Constants.FRAGMENT_INDEX, Constants.FLOURISHINGWORKS);
+            if (Build.VERSION.SDK_INT >= 21) {
+                startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(UniversalActivity.this).toBundle());
+            } else {
+                startActivity(intent);
+            }
+        } else if (item.getItemId() == android.R.id.home) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                finishAfterTransition();
+                return true;
+            } else {
+                super.onBackPressed();
+            }
+        }
         return super.onOptionsItemSelected(item);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

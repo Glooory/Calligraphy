@@ -1,13 +1,18 @@
 package com.glooory.calligraphy.adapters;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
+import com.glooory.calligraphy.activities.ImagePagerActivity;
 import com.glooory.calligraphy.anim.AnimationUtils;
 
 /**
@@ -18,22 +23,16 @@ public class ItalicAdapter extends RecyclerView.Adapter<ItalicAdapter.ItalyItemH
     private int[] charImageIds;
     private LayoutInflater inflater;
     private int mPreviousPosition = 0;
+    private Activity mContext;
 
-    public ItalicAdapter(Context context) {
+    public ItalicAdapter(Activity context) {
+        this.mContext = context;
         initCharImageIds();
         inflater = LayoutInflater.from(context);
     }
 
     private void initCharImageIds() {
-        charImageIds = new int[] {
-                R.drawable.italy_a_640, R.drawable.italy_b_640, R.drawable.italy_c_640, R.drawable.italy_d_640,
-                R.drawable.italy_e_640, R.drawable.italy_f_640, R.drawable.italy_g_640, R.drawable.italy_h_640,
-                R.drawable.italy_i_640, R.drawable.italy_j_640, R.drawable.italy_k_640, R.drawable.italy_l_640,
-                R.drawable.italy_m_640, R.drawable.italy_n_640, R.drawable.italy_o_640, R.drawable.italy_p_640,
-                R.drawable.italy_q_640, R.drawable.italy_r_640, R.drawable.italy_s_640, R.drawable.italy_t_640,
-                R.drawable.italy_u_640, R.drawable.italy_v_640, R.drawable.italy_w_640, R.drawable.italy_x_640,
-                R.drawable.italy_y_640, R.drawable.italy_z_640,
-        };
+        charImageIds = Constants.ITALIC_CHAR_IDS;
     }
 
     @Override
@@ -44,7 +43,7 @@ public class ItalicAdapter extends RecyclerView.Adapter<ItalicAdapter.ItalyItemH
     }
 
     @Override
-    public void onBindViewHolder(ItalyItemHolder holder, int position) {
+    public void onBindViewHolder(ItalyItemHolder holder, final int position) {
         holder.itemImage.setImageResource(charImageIds[position]);
 
         if (position > mPreviousPosition) {
@@ -54,6 +53,20 @@ public class ItalicAdapter extends RecyclerView.Adapter<ItalicAdapter.ItalyItemH
         }
 
         mPreviousPosition = position;
+
+        holder.itemImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ImagePagerActivity.class);
+                intent.putExtra(Constants.IMAGE_PAGER_INDEX, Constants.ITALIC_IMAGE_INDEX);
+                intent.putExtra(Constants.IMAGE_POSITION, position);
+                if (Build.VERSION.SDK_INT >= 21) {
+                    mContext.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(mContext).toBundle());
+                } else {
+                    mContext.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override

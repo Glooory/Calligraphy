@@ -5,4 +5,9 @@
         <item>字母表</item>
         <item>书写技巧</item>
     </string-array>
+
+    <string-array name="spiner_item">
+        <item>书法作品</item>
+        <item>加花作品</item>
+    </string-array>
 </resources>
