@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
             }  else {
                 if (System.currentTimeMillis() - exitTime > 2000) {
-                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
                     exitTime = System.currentTimeMillis();
                 } else {
                     if (Build.VERSION.SDK_INT >= 21) {
