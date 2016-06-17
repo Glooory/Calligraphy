@@ -1,21 +1,18 @@
 package com.glooory.calligraphy.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.glooory.calligraphy.Constants.Urls;
 import com.glooory.calligraphy.R;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.glooory.calligraphy.Utils.ImageLoadUtil;
+import com.orhanobut.logger.Logger;
 
 /**
  * Created by Glooo on 2016/5/16 0016.
@@ -25,30 +22,27 @@ public class GridViewAdapter extends BaseAdapter {
     public static final int WORKS_GRIDVIEW = 0;
     public static final int FLOURISHING_GRIDVIEW = 1;
     private LayoutInflater inflater;
-    private DisplayImageOptions options;
     private static final String[] WORK_URLS = Urls.WORKURLS;
     private static final String[] FLOURISHING_URLS = Urls.FLOURISHINGURLS;
     private int mGridViewIndex;
     private String[] MY_URLS = new String[]{};
+    private Context mContext;
+    private int resizeSize = 0;
 
     public GridViewAdapter(Context context, int gridViewIndex) {
         mGridViewIndex = gridViewIndex;
+        mContext = context;
         inflater = LayoutInflater.from(context);
-
-        options = new DisplayImageOptions.Builder()
-                .showImageForEmptyUri(R.mipmap.ic_empty)
-                .showImageOnFail(R.mipmap.ic_error)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
-
         if (gridViewIndex == WORKS_GRIDVIEW) {
             MY_URLS = WORK_URLS;
         } else {
             MY_URLS = FLOURISHING_URLS;
         }
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        resizeSize = displayMetrics.widthPixels / 3;
+        Logger.d(String.valueOf(resizeSize));
     }
 
     @Override
@@ -74,47 +68,13 @@ public class GridViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final ViewHolder holder;
+        ImageView imageView;
         View view = convertView;
         if (convertView == null) {
-            holder = new ViewHolder();
             view = inflater.inflate(R.layout.item_grid_image, parent, false);
-            assert view != null;
-            holder.imageView = (ImageView) view.findViewById(R.id.gridview_item_image);
-            holder.progressBar = (ProgressBar) view.findViewById(R.id.gridview_item_progressbar);
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
         }
-
-        ImageLoader.getInstance().displayImage(MY_URLS[position], holder.imageView, options, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                holder.progressBar.setProgress(0);
-                holder.progressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                holder.progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                holder.progressBar.setVisibility(View.GONE);
-            }
-
-        }, new ImageLoadingProgressListener() {
-            @Override
-            public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                holder.progressBar.setProgress(Math.round(100.0f * current / total));
-            }
-        });
+        imageView = (ImageView) view.findViewById(R.id.gridview_item_image);
+        ImageLoadUtil.loadImageWithPlaceHolders(mContext, imageView, MY_URLS[position], resizeSize);
         return view;
-    }
-
-    static class ViewHolder {
-        ImageView imageView;
-        ProgressBar progressBar;
     }
 }

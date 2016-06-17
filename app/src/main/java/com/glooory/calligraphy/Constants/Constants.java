@@ -24,6 +24,14 @@ public class Constants {
     public static final int ROUNDHAND_IMAGE_INDEX = 13;
     public static final int HANDPRINTED_IMAGE_INDEX = 14;
 
+    public static final int FONT_ITALIC = 20;
+    public static final int FONT_ROUNDHAND = 21;
+    public static final int FONT_HANDPRINTED = 22;
+
+    public static final String ACTIVITY_INDEX = "activity_index";
+    public static final int ACTIVITY_ITALIC_INDEX = 30;
+    public static final int ACTIVITY_ROUNDHAND_INDEX = 31;
+    public static final int ACTIVITY_HANDPRINTED_INDEX = 32;
 
     public static final int[] ITALIC_CHAR_IDS = new int[] {
             R.drawable.italy_a_640, R.drawable.italy_b_640, R.drawable.italy_c_640, R.drawable.italy_d_640,
@@ -36,13 +44,13 @@ public class Constants {
     };
 
     public static final int[] ROUNDHAND_CHAR_IDS = new int[] {
-            R.drawable.roundhand_a_640, R.drawable.roundhand_b_640, R.drawable.roundhand_c_640, R.drawable.roundhand_d_640,
-            R.drawable.roundhand_e_640, R.drawable.roundhand_f_640, R.drawable.roundhand_g_640, R.drawable.roundhand_h_640,
-            R.drawable.roundhand_i_640, R.drawable.roundhand_j_640, R.drawable.roundhand_k_640, R.drawable.roundhand_l_640,
-            R.drawable.roundhand_m_640, R.drawable.roundhand_n_640, R.drawable.roundhand_o_640, R.drawable.roundhand_p_640,
-            R.drawable.roundhand_q_640, R.drawable.roundhand_r_640, R.drawable.roundhand_s_640, R.drawable.roundhand_t_640,
-            R.drawable.roundhand_u_640, R.drawable.roundhand_v_640, R.drawable.roundhand_w_640, R.drawable.roundhand_x_640,
-            R.drawable.roundhand_y_640, R.drawable.roundhand_z_640
+            R.drawable.roundhand_a_480, R.drawable.roundhand_b_480, R.drawable.roundhand_c_480, R.drawable.roundhand_d_480,
+            R.drawable.roundhand_e_480, R.drawable.roundhand_f_480, R.drawable.roundhand_g_480, R.drawable.roundhand_h_480,
+            R.drawable.roundhand_i_480, R.drawable.roundhand_j_480, R.drawable.roundhand_k_480, R.drawable.roundhand_l_480,
+            R.drawable.roundhand_m_480, R.drawable.roundhand_n_480, R.drawable.roundhand_o_480, R.drawable.roundhand_p_480,
+            R.drawable.roundhand_q_480, R.drawable.roundhand_r_480, R.drawable.roundhand_s_480, R.drawable.roundhand_t_480,
+            R.drawable.roundhand_u_480, R.drawable.roundhand_v_480, R.drawable.roundhand_w_480, R.drawable.roundhand_x_480,
+            R.drawable.roundhand_y_480, R.drawable.roundhand_z_480
     };
 
     public static final int[] HANDPRINTED_CHAR_IDS = new int[] {

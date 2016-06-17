@@ -59,6 +59,8 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
+import com.orhanobut.logger.Logger;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -97,7 +99,6 @@ import java.util.Comparator;
 public class PinchImageViewPager extends ViewGroup {
     private static final String TAG = "ViewPager";
     private static final boolean DEBUG = false;
-
     private static final boolean USE_CACHE = false;
 
     private static final int DEFAULT_OFFSCREEN_PAGES = 1;
@@ -1852,16 +1853,16 @@ public class PinchImageViewPager extends ViewGroup {
 
         // Nothing more to do here if we have decided whether or not we
         // are dragging.
-        if (action != MotionEvent.ACTION_DOWN) {
-            if (mIsBeingDragged) {
-                if (DEBUG) Log.v(TAG, "Intercept returning true!");
-                return true;
-            }
-            if (mIsUnableToDrag) {
-                if (DEBUG) Log.v(TAG, "Intercept returning false!");
-                return false;
-            }
-        }
+//        if (action != MotionEvent.ACTION_DOWN) {
+//            if (mIsBeingDragged) {
+//                if (DEBUG) Log.v(TAG, "Intercept returning true!");
+//                return true;
+//            }
+//            if (mIsUnableToDrag) {
+//                if (DEBUG) Log.v(TAG, "Intercept returning false!");
+//                return false;
+//            }
+//        }
 
         switch (action) {
             case MotionEvent.ACTION_MOVE: {
@@ -2019,6 +2020,7 @@ public class PinchImageViewPager extends ViewGroup {
                     final float yDiff = Math.abs(y - mLastMotionY);
                     if (DEBUG) Log.v(TAG, "Moved x to " + x + "," + y + " diff=" + xDiff + "," + yDiff);
                     if (xDiff > mTouchSlop && xDiff > yDiff) {
+                        Logger.d("Starting drag");
                         if (DEBUG) Log.v(TAG, "Starting drag!");
                         mIsBeingDragged = true;
                         requestParentDisallowInterceptTouchEvent(true);

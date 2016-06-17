@@ -11,6 +11,10 @@
     <string name="roundhand_tran_name">roundhand</string>
     <string name="handprinted_tran_name">handprinted</string>
 
+    <string name="font_italic">意大利体</string>
+    <string name="font_round_hand">圆体</string>
+    <string name="font_hand_printed">手写印刷体</string>
+
     <string name="alphabet">字母表</string>
     <string name="tips">书写技巧</string>
 

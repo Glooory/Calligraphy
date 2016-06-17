@@ -23,28 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.RoundHandActivity"
-            android:label="圆体"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.MainActivity">
+            android:name=".activities.FontActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
-        </activity>
-        <activity
-            android:name=".activities.ItalicActivity"
-            android:label="意大利体"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
-        </activity>
-        <activity
-            android:name=".activities.HandprintedActivity"
-            android:label="手写印刷体"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity"/>
         </activity>
         <activity

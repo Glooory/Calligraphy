@@ -15,9 +15,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private CardView italyCard;
     private CardView handprintedCard;
     private CardView copperplateCard;
+    private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,17 +103,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            if (Build.VERSION.SDK_INT >= 21) {
-                finishAfterTransition();
-            } else {
-                super.onBackPressed();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            }  else {
+                if (System.currentTimeMillis() - exitTime > 2000) {
+                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    if (Build.VERSION.SDK_INT >= 21) {
+                        finishAfterTransition();
+                    } else {
+                        finish();
+                    }
+                }
             }
+            return true;
         }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -131,7 +142,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_declaration) {
             showDeclarationDialog();
         }
-
+        
         return super.onOptionsItemSelected(item);
     }
 
@@ -184,27 +195,33 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.card_italy:
+                Intent intentItalic = new Intent(MainActivity.this, FontActivity.class);
+                intentItalic.putExtra(Constants.ACTIVITY_INDEX, Constants.ACTIVITY_ITALIC_INDEX);
                 if (Build.VERSION.SDK_INT >= 21) {
-                    startActivity(new Intent(MainActivity.this, ItalicActivity.class),
+                    startActivity(intentItalic,
                             ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
                 } else {
-                    startActivity(new Intent(MainActivity.this, ItalicActivity.class));
+                    startActivity(intentItalic);
                 }
                 break;
             case R.id.card_roundhand:
+                Intent intentRoundhand = new Intent(MainActivity.this, FontActivity.class);
+                intentRoundhand.putExtra(Constants.ACTIVITY_INDEX, Constants.ACTIVITY_ROUNDHAND_INDEX);
                 if (Build.VERSION.SDK_INT >= 21) {
-                    startActivity(new Intent(MainActivity.this, RoundHandActivity.class),
+                    startActivity(intentRoundhand,
                             ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
                 } else {
-                    startActivity(new Intent(MainActivity.this, RoundHandActivity.class));
+                    startActivity(intentRoundhand);
                 }
                 break;
             case R.id.card_handprinted:
+                Intent intentHandprinted = new Intent(MainActivity.this, FontActivity.class);
+                intentHandprinted.putExtra(Constants.ACTIVITY_INDEX, Constants.ACTIVITY_HANDPRINTED_INDEX);
                 if (Build.VERSION.SDK_INT >= 21) {
-                    startActivity(new Intent(MainActivity.this, HandprintedActivity.class),
+                    startActivity(intentHandprinted,
                             ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
                 } else {
-                    startActivity(new Intent(MainActivity.this, HandprintedActivity.class));
+                    startActivity(intentHandprinted);
                 }
                 break;
             case R.id.card_copperplate:

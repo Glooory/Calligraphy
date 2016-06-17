@@ -9,8 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.adapters.ItalicAdapter;
+import com.glooory.calligraphy.adapters.CharAdapter;
 
 /**
  * Created by Glooo on 2016/5/10 0010.
@@ -18,7 +19,7 @@ import com.glooory.calligraphy.adapters.ItalicAdapter;
 public class ItalicAlpFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private ItalicAdapter mAdapter;
+    private CharAdapter mAdapter;
 
     @Nullable
     @Override
@@ -26,8 +27,14 @@ public class ItalicAlpFragment extends Fragment {
         View layout = inflater.inflate(R.layout.recycler_view, container, false);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycer_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ItalicAdapter(getActivity());
+        mAdapter = new CharAdapter(getActivity(), Constants.FONT_ITALIC);
         mRecyclerView.setAdapter(mAdapter);
         return layout;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter.clearMemoryCache();
     }
 }

@@ -9,15 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.adapters.RoundhandAdapter;
+import com.glooory.calligraphy.adapters.CharAdapter;
 
 /**
  * Created by Glooo on 2016/5/9 0009.
  */
 public class RdhandAlpFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private RoundhandAdapter mAdapter;
+    private CharAdapter mAdapter;
 
     @Nullable
     @Override
@@ -25,8 +26,14 @@ public class RdhandAlpFragment extends Fragment {
         View layout = inflater.inflate(R.layout.recycler_view, container, false);
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.recycer_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new RoundhandAdapter(getActivity());
+        mAdapter = new CharAdapter(getActivity(), Constants.FONT_ROUNDHAND);
         mRecyclerView.setAdapter(mAdapter);
         return layout;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter.clearMemoryCache();
     }
 }
