@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
+import com.glooory.calligraphy.Utils.NetworkUtil;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity
             editor.putBoolean(DECLARATION, false);
             editor.commit();
         }
-
     }
 
     private void setupToolbar() {
@@ -97,9 +97,7 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        builder.create().show();
     }
 
     @Override
@@ -177,13 +175,34 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intentFlouri);
             }
         } else if (id == R.id.nav_more_piece) {
-            Intent intentMoreWorks = new Intent(MainActivity.this, GridviewActivity.class);
-            intentMoreWorks.putExtra(Constants.FRAGMENT_INDEX, Constants.MOREWORKS);
-            if (Build.VERSION.SDK_INT >= 21) {
-                startActivity(intentMoreWorks, ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-            } else {
-                startActivity(intentMoreWorks);
+            if (!NetworkUtil.isOnline(this)) {
+                Toast.makeText(this, "网络不可用，请检查后重试。", Toast.LENGTH_SHORT).show();
+                return true;
             }
+
+            SharedPreferences spf = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean isFirstTime = spf.getBoolean(WorksActivity.FIRST_TIME, true);
+            if (isFirstTime && NetworkUtil.isMobileData(this)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("你正在使用的是数据流量，后面需要加载的图片较多，确定继续？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startWorksActivity();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        })
+                        .setCancelable(false);
+                builder.create().show();
+            } else {
+                startWorksActivity();
+            }
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -239,5 +258,15 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
+    }
+
+    private void startWorksActivity() {
+        Intent intentMoreWorks = new Intent(MainActivity.this, WorksActivity.class);
+        intentMoreWorks.putExtra(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
+        if (Build.VERSION.SDK_INT >= 21) {
+            startActivity(intentMoreWorks, ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
+        } else {
+            startActivity(intentMoreWorks);
+        }
     }
 }

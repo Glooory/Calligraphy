@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.Utils.AnimationUtils;
+import com.glooory.calligraphy.Utils.AnimationUtil;
 import com.glooory.calligraphy.activities.ImagePagerActivity;
 
 /**
@@ -81,9 +81,9 @@ public class CharAdapter extends RecyclerView.Adapter<CharAdapter.CharHolder> {
         mMemoryCache.put(String.valueOf(charImgIds[position]), mResources.getDrawable(charImgIds[position]));
 
         if (position > mPrePosition) {
-            AnimationUtils.animateSunblind(holder, true);
+            AnimationUtil.animateSunblind(holder, true);
         } else {
-            AnimationUtils.animateSunblind(holder, false);
+            AnimationUtil.animateSunblind(holder, false);
         }
 
         mPrePosition = position;

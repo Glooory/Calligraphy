@@ -18,7 +18,7 @@ public class ImageLoadUtil {
      * 从资源文件中加载
      */
     public static void loadImage(Context context,ImageView imageView, int resourceId) {
-        Picasso.with(context).load(resourceId).into(imageView);
+        Picasso.with(context).load(resourceId).centerInside().into(imageView);
     }
 
     /**
@@ -28,11 +28,12 @@ public class ImageLoadUtil {
         Picasso.with(context).load(url).into(imageView);
     }
 
-    public static void loadImageWithPlaceHolders(Context context, ImageView imageView, String url, int resizeSize) {
-        Picasso.with(context)
-                .load(url)
-                .resize(resizeSize, resizeSize)
-                .centerCrop()
+    public static void loadImageWithPlaceHolders(Context context, ImageView imageView, String url, int width, int height) {
+        Picasso picasso = Picasso.with(context);
+        picasso.setIndicatorsEnabled(true);
+        picasso.load(url)
+                .resize(width, height)
+                .centerInside()
                 .error(R.mipmap.ic_error)
                 .into(imageView);
     }

@@ -14,8 +14,6 @@ public class Constants {
     public static final int CALLIFRAG = 2;
     public static final int OTHERFRAG = 3;
     public static final int FLOURIFRAG = 4;
-    public static final int MOREWORKS = 0;
-    public static final int FLOURISHINGWORKS = 1;
 
     public static final String IMAGE_PAGER_INDEX = "image_pager_index";
     public static final int WORKS_IMAGE_INDEX = 10;
@@ -32,6 +30,10 @@ public class Constants {
     public static final int ACTIVITY_ITALIC_INDEX = 30;
     public static final int ACTIVITY_ROUNDHAND_INDEX = 31;
     public static final int ACTIVITY_HANDPRINTED_INDEX = 32;
+
+    public static final String WORKS_INDEX = "works_index";
+    public static final int WORKS_NORMAL_INDEX = 0;
+    public static final int WORKS_FLOURISHING_INDEX = 1;
 
     public static final int[] ITALIC_CHAR_IDS = new int[] {
             R.drawable.italy_a_640, R.drawable.italy_b_640, R.drawable.italy_c_640, R.drawable.italy_d_640,

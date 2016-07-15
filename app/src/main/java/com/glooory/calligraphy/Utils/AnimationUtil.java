@@ -8,7 +8,7 @@ import android.view.animation.DecelerateInterpolator;
 /**
  * Created by Glooo on 2016/5/9 0009.
  */
-public class AnimationUtils {
+public class AnimationUtil {
 
     public static void animateSunblind(RecyclerView.ViewHolder holder, boolean goesDown) {
         int holderHeight = holder.itemView.getHeight();

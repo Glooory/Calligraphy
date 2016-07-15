@@ -1,7 +1,9 @@
 package com.glooory.calligraphy.activities;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -15,16 +17,14 @@ import android.widget.SpinnerAdapter;
 
 import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.fragments.FlourishingWorksFragment;
-import com.glooory.calligraphy.fragments.MoreWorksFragment;
+import com.glooory.calligraphy.fragments.WorksFragment;
 
 /**
  * Created by Glooo on 2016/5/15 0015.
  */
-public class GridviewActivity extends AppCompatActivity {
-
+public class WorksActivity extends AppCompatActivity {
+    public static final String FIRST_TIME = "first_time";
     private Toolbar mToolbar;
-    private String[] category;
     private int index;
     private Fragment fragment = null;
 
@@ -33,9 +33,12 @@ public class GridviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gridview);
 
-        index = getIntent().getIntExtra(Constants.FRAGMENT_INDEX, Constants.MOREWORKS);
+        index = getIntent().getIntExtra(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
         setupToolbar();
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_gridview_container, getFragment(index)).commit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putBoolean(FIRST_TIME, false);
+        editor.commit();
     }
 
     private void setupToolbar() {
@@ -45,7 +48,6 @@ public class GridviewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        category = getResources().getStringArray(R.array.spiner_item);
         SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(
                 this, R.array.spiner_item, R.layout.spiner_dropdown_item);
         Spinner spinner = new Spinner(getSupportActionBar().getThemedContext());
@@ -60,11 +62,11 @@ public class GridviewActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.activity_gridview_container, getFragment(Constants.MOREWORKS)).commit();
+                                .replace(R.id.activity_gridview_container, getFragment(Constants.WORKS_NORMAL_INDEX)).commit();
                         break;
                     case 1:
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.activity_gridview_container, getFragment(Constants.FLOURISHINGWORKS)).commit();
+                                .replace(R.id.activity_gridview_container, getFragment(Constants.WORKS_FLOURISHING_INDEX)).commit();
                         break;
                 }
             }
@@ -77,12 +79,17 @@ public class GridviewActivity extends AppCompatActivity {
     }
 
     private Fragment getFragment(int index) {
+        Bundle bundle = new Bundle();
         switch (index) {
-            case Constants.MOREWORKS:
-                fragment = new MoreWorksFragment();
+            case Constants.WORKS_NORMAL_INDEX:
+                fragment = new WorksFragment();
+                bundle.putInt(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
+                fragment.setArguments(bundle);
                 break;
-            case Constants.FLOURISHINGWORKS:
-                fragment = new FlourishingWorksFragment();
+            case Constants.WORKS_FLOURISHING_INDEX:
+                fragment = new WorksFragment();
+                bundle.putInt(Constants.WORKS_INDEX, Constants.WORKS_FLOURISHING_INDEX);
+                fragment.setArguments(bundle);
                 break;
         }
         return fragment;
