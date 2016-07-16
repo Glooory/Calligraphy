@@ -175,13 +175,13 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intentFlouri);
             }
         } else if (id == R.id.nav_more_piece) {
-            if (!NetworkUtil.isOnline(this)) {
+            SharedPreferences spf = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean isFirstTime = spf.getBoolean(WorksActivity.FIRST_TIME, true);
+            if (isFirstTime && !NetworkUtil.isOnline(this)) {
                 Toast.makeText(this, "网络不可用，请检查后重试。", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            SharedPreferences spf = PreferenceManager.getDefaultSharedPreferences(this);
-            boolean isFirstTime = spf.getBoolean(WorksActivity.FIRST_TIME, true);
             if (isFirstTime && NetworkUtil.isMobileData(this)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("你正在使用的是数据流量，后面需要加载的图片较多，确定继续？")

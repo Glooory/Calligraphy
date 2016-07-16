@@ -102,19 +102,14 @@ public class UniversalActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_flourishing_more) {
-            if (!NetworkUtil.isOnline(this)) {
-                Toast.makeText(this, "网络不可用，请检查后重试。", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-            if (!NetworkUtil.isOnline(this)) {
-                Toast.makeText(this, "网络不可用，请检查后重试。", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
             SharedPreferences spf = PreferenceManager.getDefaultSharedPreferences(this);
             boolean isFirstTime = spf.getBoolean(WorksActivity.FIRST_TIME, true);
-            Log.d("是否第一次创建?", "isFirstTime:" + isFirstTime);
+
+            if (isFirstTime && !NetworkUtil.isOnline(this)) {
+                Toast.makeText(this, "网络不可用，请检查后重试。", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
             if (isFirstTime && NetworkUtil.isMobileData(this)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("你正在使用的是数据流量，后面需要加载的图片较多，确定继续？")
