@@ -6,6 +6,7 @@ package com.glooory.calligraphy.Constants;
 public class Urls {
 
     public static final String[] WORKURLS = new String[] {
+            "http://img.hb.aicdn.com/e0fb05b741735ff6839ff1ec476359e52146b53e5bc2-wZ8qSQ",
             "http://img3.duitang.com/uploads/item/201607/15/20160715163221_GikX8.thumb.700_0.jpeg",
             "http://img3.duitang.com/uploads/item/201607/15/20160715163236_SCiAH.thumb.700_0.jpeg",
             "http://img3.duitang.com/uploads/item/201607/15/20160715163243_t3SYf.thumb.700_0.jpeg",

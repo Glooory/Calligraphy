@@ -1,9 +1,7 @@
 package com.glooory.calligraphy.activities;
 
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -31,14 +29,11 @@ public class WorksActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gridview);
+        setContentView(R.layout.activity_works);
 
         index = getIntent().getIntExtra(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
         setupToolbar();
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_gridview_container, getFragment(index)).commit();
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putBoolean(FIRST_TIME, false);
-        editor.commit();
     }
 
     private void setupToolbar() {

@@ -18,6 +18,10 @@ import com.glooory.calligraphy.Constants.Urls;
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.Utils.ImageLoadUtil;
 import com.glooory.calligraphy.activities.ImagePagerActivity;
+import com.glooory.calligraphy.modul.CalliWork;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Glooo on 2016/7/13 0013.
@@ -28,6 +32,7 @@ public class WorksAdapter extends RecyclerView.Adapter<WorksAdapter.WorkHolder> 
     private int DETAIL_IMG_INDEX;
     private Context mContext;
     private int resizeSize = 0;
+    private List<CalliWork> mWorks = new ArrayList<>();
 
     public WorksAdapter(Context context, int worksIndex) {
         this.mContext = context;
@@ -58,7 +63,9 @@ public class WorksAdapter extends RecyclerView.Adapter<WorksAdapter.WorkHolder> 
 //        params.height = (int) (resizeSize * mRatio[position]);
 //        holder.workImg.setLayoutParams(params);
 //        ImageLoadUtil.loadImage(mContext, holder.workImg, MY_URLS[position]);
-        ImageLoadUtil.loadImageWithPlaceHolders(mContext, holder.workImg, MY_URLS[position], resizeSize, resizeSize);
+        ImageLoadUtil.loadImageWithPlaceHolders(mContext, holder.workImg,
+                Constants.IMG_URL_PREFIX + mWorks.get(position).getKey(),
+                resizeSize, resizeSize);
 
         holder.workImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +84,7 @@ public class WorksAdapter extends RecyclerView.Adapter<WorksAdapter.WorkHolder> 
 
     @Override
     public int getItemCount() {
-        return MY_URLS.length;
+        return mWorks.size();
     }
 
     static class WorkHolder extends RecyclerView.ViewHolder {
@@ -87,6 +94,11 @@ public class WorksAdapter extends RecyclerView.Adapter<WorksAdapter.WorkHolder> 
             super(itemView);
             workImg = (ImageView) itemView.findViewById(R.id.card_works_img);
         }
+    }
+
+    public void setWorkList(List<CalliWork> list) {
+        this.mWorks = list;
+        notifyDataSetChanged();
     }
 
 }

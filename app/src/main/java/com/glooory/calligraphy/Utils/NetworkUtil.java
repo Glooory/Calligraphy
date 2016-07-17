@@ -3,6 +3,20 @@ package com.glooory.calligraphy.Utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
+
+import com.glooory.calligraphy.modul.CalliWork;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
 
 /**
  * Created by Glooo on 2016/7/15 0015.
@@ -24,5 +38,56 @@ public class NetworkUtil {
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    //网络请求
+    public static String loadPins(final String pinUrl) {
+        HttpURLConnection conn = null;
+        try {
+            Log.d("NetworkUtil", "异步开始请求网络数据");
+            URL url = new URL(pinUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            InputStream inputStream = conn.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                response.append(line);
+            }
+            Log.d("NetworkUtil", "请求到的数据" + response.toString());
+            return response.toString();
+        } catch (Exception e) {
+            Log.d("NetworkUtil", "网络请求失败");
+            return null;
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+    }
+
+    //解析Json数据的方法
+    public static void parseWorks(String response, List<CalliWork> mList) {
+        try {
+            JSONObject raw = new JSONObject(response);
+            JSONArray pinsArray = raw.getJSONArray("pins");
+            for (int i = 0; i < pinsArray.length(); i++) {
+                JSONObject pin = pinsArray.getJSONObject(i);
+                JSONObject file = pin.getJSONObject("file");
+                CalliWork calliWork = new CalliWork();
+                calliWork.setId(file.getInt("id"));
+                calliWork.setKey(file.getString("key"));
+                calliWork.setType(file.getString("type"));
+                calliWork.setWidth(file.getInt("width"));
+                calliWork.setHeight(file.getInt("height"));
+                mList.add(calliWork);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 }

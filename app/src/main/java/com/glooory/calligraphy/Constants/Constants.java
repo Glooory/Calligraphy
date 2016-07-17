@@ -65,4 +65,17 @@ public class Constants {
             R.drawable.handprinted_y_640, R.drawable.handprinted_z_640
     };
 
+    public static final String NOR_WORKS_PINID_A = "30752981";
+
+    public static final String NOR_WORKS_URLS_A = "http://api.huaban.com/boards/30752981/pins?limit=?";
+
+    public static final String NOR_WORKS_PINID_B = "30772235";
+
+    public static final String NOR_WORKS_URLS_B = "http://api.huaban.com/boards/30772235/pins?limit=?";
+
+    public static final String FLO_WORKS_PINID = "30765816";
+
+    public static final String FLO_WORKS_URLS = "http://api.huaban.com/boards/30765816/pins?limit=?";
+
+    public static final String IMG_URL_PREFIX = "http://img.hb.aicdn.com/";
 }
