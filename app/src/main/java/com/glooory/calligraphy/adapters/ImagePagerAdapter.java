@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.glooory.calligraphy.Constants.Constants;
-import com.glooory.calligraphy.Constants.Urls;
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.Utils.ImageLoadUtil;
 import com.glooory.calligraphy.activities.ImagePagerActivity;
+import com.glooory.calligraphy.fragments.WorksFragment;
 import com.glooory.calligraphy.views.PinchImageView;
 import com.glooory.calligraphy.views.PinchImageViewPager;
 
@@ -20,7 +20,6 @@ import com.glooory.calligraphy.views.PinchImageViewPager;
 public class ImagePagerAdapter extends PagerAdapter {
 
     private int mIndex;
-    private String[] MY_URLS = new String[] {};
     private int[] MY_CHAR_IDS = new int[]{};
     private boolean isFromUrl;
     private LayoutInflater inflater;
@@ -39,11 +38,9 @@ public class ImagePagerAdapter extends PagerAdapter {
     private void init() {
         switch (mIndex) {
             case Constants.WORKS_IMAGE_INDEX:
-                MY_URLS = Urls.WORKURLS;
                 isFromUrl = true;
                 break;
             case Constants.FLOURISHING_IMAGE_INDEX:
-                MY_URLS = Urls.FLOURISHINGURLS;
                 isFromUrl = true;
                 break;
             case Constants.ITALIC_IMAGE_INDEX:
@@ -65,9 +62,9 @@ public class ImagePagerAdapter extends PagerAdapter {
     public int getCount() {
         switch (mIndex) {
             case Constants.WORKS_IMAGE_INDEX:
-                return Urls.WORKURLS.length;
+                return WorksFragment.mWorks.size();
             case Constants.FLOURISHING_IMAGE_INDEX:
-                return Urls.FLOURISHINGURLS.length;
+                return WorksFragment.mWorks.size();
             case Constants.ITALIC_IMAGE_INDEX:
                 return Constants.ITALIC_CHAR_IDS.length;
             case Constants.ROUNDHAND_IMAGE_INDEX:
@@ -93,7 +90,8 @@ public class ImagePagerAdapter extends PagerAdapter {
         PinchImageView imageView = (PinchImageView) inflater.inflate(R.layout.item_viewpager, container, false);
 
         if (isFromUrl) {
-            ImageLoadUtil.loadImage(mContext, imageView, MY_URLS[position]);
+            ImageLoadUtil.loadImage(mContext, imageView,
+                    Constants.IMG_URL_PREFIX + WorksFragment.mWorks.get(position).getKey());
         } else {
             imageView.setImageResource(MY_CHAR_IDS[position]);
         }
@@ -114,7 +112,8 @@ public class ImagePagerAdapter extends PagerAdapter {
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         PinchImageView imageView = (PinchImageView) object;
         if (isFromUrl) {
-            ImageLoadUtil.loadImage(mContext, imageView, MY_URLS[position]);
+            ImageLoadUtil.loadImage(mContext, imageView,
+                    Constants.IMG_URL_PREFIX + WorksFragment.mWorks.get(position).getKey());
         } else {
             imageView.setImageResource(MY_CHAR_IDS[position]);
         }

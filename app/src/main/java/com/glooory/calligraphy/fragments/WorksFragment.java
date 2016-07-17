@@ -33,7 +33,7 @@ public class WorksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     private RecyclerView mRecyclerView;
     private WorksAdapter mAdapter;
     private int worksIndex;
-    private List<CalliWork> mWorks;
+    public static List<CalliWork> mWorks;
     private boolean isFirstTime;
 
     @Override
