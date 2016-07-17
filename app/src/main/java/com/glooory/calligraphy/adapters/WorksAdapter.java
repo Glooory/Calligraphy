@@ -18,6 +18,7 @@ import com.glooory.calligraphy.Constants.Urls;
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.Utils.ImageLoadUtil;
 import com.glooory.calligraphy.activities.ImagePagerActivity;
+import com.glooory.calligraphy.fragments.WorksFragment;
 import com.glooory.calligraphy.modul.CalliWork;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class WorksAdapter extends RecyclerView.Adapter<WorksAdapter.WorkHolder> 
     private static String[] MY_URLS = new String[]{};
     private int DETAIL_IMG_INDEX;
     private Context mContext;
-    private int resizeSize = 0;
+    private int resizeWidth = 0;
     private List<CalliWork> mWorks = new ArrayList<>();
 
     public WorksAdapter(Context context, int worksIndex) {
@@ -47,7 +48,7 @@ public class WorksAdapter extends RecyclerView.Adapter<WorksAdapter.WorkHolder> 
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        resizeSize = (int) (displayMetrics.widthPixels * 0.75);
+        resizeWidth = (int) ((displayMetrics.widthPixels - 24 * displayMetrics.density) * 0.5);
     }
 
     @Override
@@ -58,14 +59,16 @@ public class WorksAdapter extends RecyclerView.Adapter<WorksAdapter.WorkHolder> 
 
     @Override
     public void onBindViewHolder(final WorkHolder holder, final int position) {
-//        ViewGroup.LayoutParams params = holder.workImg.getLayoutParams();
-//        params.width = resizeSize;
-//        params.height = (int) (resizeSize * mRatio[position]);
-//        holder.workImg.setLayoutParams(params);
-//        ImageLoadUtil.loadImage(mContext, holder.workImg, MY_URLS[position]);
+        CalliWork calliWork = WorksFragment.mWorks.get(position);
+        float mRatio = ((float) calliWork.getWidth()) / ((float) calliWork.getHeight());
+        int resizeHeight = (int) (resizeWidth / mRatio);
+        ViewGroup.LayoutParams params = holder.workImg.getLayoutParams();
+        params.width = resizeWidth;
+        params.height = resizeHeight;
+        holder.workImg.setLayoutParams(params);
         ImageLoadUtil.loadImageWithPlaceHolders(mContext, holder.workImg,
                 Constants.IMG_URL_PREFIX + mWorks.get(position).getKey(),
-                resizeSize, resizeSize);
+                resizeWidth, resizeHeight);
 
         holder.workImg.setOnClickListener(new View.OnClickListener() {
             @Override

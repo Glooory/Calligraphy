@@ -3,7 +3,6 @@ package com.glooory.calligraphy.Utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import com.glooory.calligraphy.modul.CalliWork;
 
@@ -44,7 +43,6 @@ public class NetworkUtil {
     public static String loadPins(final String pinUrl) {
         HttpURLConnection conn = null;
         try {
-            Log.d("NetworkUtil", "异步开始请求网络数据");
             URL url = new URL(pinUrl);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -57,10 +55,8 @@ public class NetworkUtil {
             while ((line = bufferedReader.readLine()) != null) {
                 response.append(line);
             }
-            Log.d("NetworkUtil", "请求到的数据" + response.toString());
             return response.toString();
         } catch (Exception e) {
-            Log.d("NetworkUtil", "网络请求失败");
             return null;
         } finally {
             if (conn != null) {
