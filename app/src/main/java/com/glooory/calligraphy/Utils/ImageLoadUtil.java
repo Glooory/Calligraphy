@@ -33,7 +33,8 @@ public class ImageLoadUtil {
         picasso.setIndicatorsEnabled(true);
         picasso.load(url)
                 .resize(width, height)
-                .centerCrop()
+                .centerInside()
+                .placeholder(R.drawable.progress_animation)
                 .error(R.mipmap.ic_error)
                 .into(imageView);
     }

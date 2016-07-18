@@ -138,9 +138,14 @@ public class WorksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void loadNor() {
-        mWorks.clear();
-        NetworkUtil.parseWorks(FileUtil.readPins(getContext(), Constants.NOR_WORKS_PINID_A), mWorks);
-        NetworkUtil.parseWorks(FileUtil.readPins(getContext(), Constants.NOR_WORKS_PINID_B), mWorks);
+        if (FileUtil.cacheIsExist(getContext(), Constants.NOR_WORKS_PINID_A)
+                && FileUtil.cacheIsExist(getContext(), Constants.NOR_WORKS_PINID_B)) {
+            mWorks.clear();
+            NetworkUtil.parseWorks(FileUtil.readPins(getContext(), Constants.NOR_WORKS_PINID_A), mWorks);
+            NetworkUtil.parseWorks(FileUtil.readPins(getContext(), Constants.NOR_WORKS_PINID_B), mWorks);
+        } else {
+            httpRequest();
+        }
     }
 
     private void requestFloFromNetwork() {
@@ -149,8 +154,12 @@ public class WorksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void loadFlo() {
-        mWorks.clear();
-        NetworkUtil.parseWorks(FileUtil.readPins(getContext(), Constants.FLO_WORKS_PINID), mWorks);
+        if (FileUtil.cacheIsExist(getContext(), Constants.FLO_WORKS_PINID)) {
+            mWorks.clear();
+            NetworkUtil.parseWorks(FileUtil.readPins(getContext(), Constants.FLO_WORKS_PINID), mWorks);
+        } else {
+            httpRequest();
+        }
     }
 
     private void joinThread(Thread thread) {

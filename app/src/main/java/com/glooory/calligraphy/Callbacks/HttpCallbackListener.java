@@ -1,4 +1,4 @@
-package com.glooory.calligraphy.Interface;
+package com.glooory.calligraphy.Callbacks;
 
 /**
  * Created by Glooo on 2016/7/17 0017.

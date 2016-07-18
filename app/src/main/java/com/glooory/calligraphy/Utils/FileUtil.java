@@ -18,6 +18,12 @@ import java.io.InputStreamReader;
  */
 public class FileUtil {
 
+    //检查缓存文件是否存在
+    public static boolean cacheIsExist(Context context, String fileName) {
+        File cache = new File(context.getCacheDir(), fileName);
+        return cache.exists();
+    }
+
     //将请求到的网络数据保存到文件中
     public static void savePins(Context context, String response, String fileName) {
         if (response.isEmpty()) {
