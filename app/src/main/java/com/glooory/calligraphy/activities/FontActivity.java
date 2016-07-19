@@ -1,15 +1,12 @@
 package com.glooory.calligraphy.activities;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
@@ -30,7 +27,7 @@ import it.neokree.materialtabs.MaterialTabListener;
 /**
  * Created by Glooo on 2016/6/15 0015.
  */
-public class FontActivity extends AppCompatActivity implements MaterialTabListener {
+public class FontActivity extends BaseActivity implements MaterialTabListener {
     public static final int TAB_DES = 0;
     public static final int TAB_ALP = 1;
     public static final int TAB_TIPS = 2;
@@ -39,6 +36,7 @@ public class FontActivity extends AppCompatActivity implements MaterialTabListen
     private ViewPager mPager;
     private ViewPagerAdapter mAdapter;
     private int activityType = 0;
+    Fragment fragment;
 
 
     @Override
@@ -111,7 +109,6 @@ public class FontActivity extends AppCompatActivity implements MaterialTabListen
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = null;
             switch (position) {
                 case TAB_DES:
                     if (activityType == Constants.ACTIVITY_ITALIC_INDEX) {
@@ -151,26 +148,4 @@ public class FontActivity extends AppCompatActivity implements MaterialTabListen
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                finishAfterTransition();
-                return true;
-            } else {
-                super.onBackPressed();
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            finishAfterTransition();
-        } else {
-            super.onBackPressed();
-        }
-    }
 }

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/handprint_card_cover"
             android:layout_centerHorizontal="true"
-            android:background="#80616161"
+            android:background="#80607d8b"
             android:gravity="center_horizontal"
             android:text="手写印刷体"
             android:textColor="#424242" />

@@ -21,11 +21,16 @@ public class ImageLoadUtil {
         Picasso.with(context).load(resourceId).centerInside().into(imageView);
     }
 
+    public static void loadImage(Context context, ImageView imageView, int resourceId
+            , int width, int height) {
+        Picasso.with(context).load(resourceId).centerInside().resize(width, height).into(imageView);
+    }
+
     /**
      * 从网络中加载
      */
     public static void loadImage(Context context,ImageView imageView, String url) {
-        Picasso.with(context).load(url).into(imageView);
+        Picasso.with(context).load(url).placeholder(R.drawable.load_ori_img_progress).into(imageView);
     }
 
     public static void loadImageWithPlaceHolders(Context context, ImageView imageView, String url, int width, int height) {

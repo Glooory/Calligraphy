@@ -119,4 +119,5 @@ public class ImagePagerAdapter extends PagerAdapter {
         }
         pager.setMainPinchImageView(imageView);
     }
+
 }

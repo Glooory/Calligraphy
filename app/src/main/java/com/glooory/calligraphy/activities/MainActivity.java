@@ -12,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -25,7 +24,7 @@ import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.Utils.NetworkUtil;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private static final String DECLARATION = "declaration";
@@ -153,27 +152,15 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_calligraphy) {
             Intent intentCalli = new Intent(MainActivity.this, UniversalActivity.class);
             intentCalli.putExtra(Constants.FRAGMENT_INDEX, Constants.CALLIFRAG);
-            if (Build.VERSION.SDK_INT >= 21) {
-                startActivity(intentCalli, ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-            } else {
-                startActivity(intentCalli);
-            }
+            lanuchActivity(intentCalli);
         } else if (id == R.id.nav_other_font) {
             Intent intentOther = new Intent(MainActivity.this, UniversalActivity.class);
             intentOther.putExtra(Constants.FRAGMENT_INDEX, Constants.OTHERFRAG);
-            if (Build.VERSION.SDK_INT >= 21) {
-                startActivity(intentOther, ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-            } else {
-                startActivity(intentOther);
-            }
+            lanuchActivity(intentOther);
         } else if (id == R.id.nav_flourishing) {
             Intent intentFlouri = new Intent(MainActivity.this, UniversalActivity.class);
             intentFlouri.putExtra(Constants.FRAGMENT_INDEX, Constants.FLOURIFRAG);
-            if (Build.VERSION.SDK_INT >= 21) {
-                startActivity(intentFlouri, ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-            } else {
-                startActivity(intentFlouri);
-            }
+            lanuchActivity(intentFlouri);
         } else if (id == R.id.nav_more_piece) {
             SharedPreferences spf = PreferenceManager.getDefaultSharedPreferences(this);
             boolean isFirstTime = spf.getBoolean(WorksActivity.FIRST_TIME, true);
@@ -216,32 +203,17 @@ public class MainActivity extends AppCompatActivity
             case R.id.card_italy:
                 Intent intentItalic = new Intent(MainActivity.this, FontActivity.class);
                 intentItalic.putExtra(Constants.ACTIVITY_INDEX, Constants.ACTIVITY_ITALIC_INDEX);
-                if (Build.VERSION.SDK_INT >= 21) {
-                    startActivity(intentItalic,
-                            ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-                } else {
-                    startActivity(intentItalic);
-                }
+                lanuchActivity(intentItalic);
                 break;
             case R.id.card_roundhand:
                 Intent intentRoundhand = new Intent(MainActivity.this, FontActivity.class);
                 intentRoundhand.putExtra(Constants.ACTIVITY_INDEX, Constants.ACTIVITY_ROUNDHAND_INDEX);
-                if (Build.VERSION.SDK_INT >= 21) {
-                    startActivity(intentRoundhand,
-                            ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-                } else {
-                    startActivity(intentRoundhand);
-                }
+                lanuchActivity(intentRoundhand);
                 break;
             case R.id.card_handprinted:
                 Intent intentHandprinted = new Intent(MainActivity.this, FontActivity.class);
                 intentHandprinted.putExtra(Constants.ACTIVITY_INDEX, Constants.ACTIVITY_HANDPRINTED_INDEX);
-                if (Build.VERSION.SDK_INT >= 21) {
-                    startActivity(intentHandprinted,
-                            ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-                } else {
-                    startActivity(intentHandprinted);
-                }
+                lanuchActivity(intentHandprinted);
                 break;
             case R.id.card_copperplate:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -263,10 +235,15 @@ public class MainActivity extends AppCompatActivity
     private void startWorksActivity() {
         Intent intentMoreWorks = new Intent(MainActivity.this, WorksActivity.class);
         intentMoreWorks.putExtra(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
+        lanuchActivity(intentMoreWorks);
+    }
+
+    private void lanuchActivity(Intent intent) {
         if (Build.VERSION.SDK_INT >= 21) {
-            startActivity(intentMoreWorks, ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
+            startActivity(intent,
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
         } else {
-            startActivity(intentMoreWorks);
+            startActivity(intent);
         }
     }
 }

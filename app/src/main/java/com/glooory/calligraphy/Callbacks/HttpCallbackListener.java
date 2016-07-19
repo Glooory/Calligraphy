@@ -5,8 +5,8 @@ package com.glooory.calligraphy.Callbacks;
  */
 public interface HttpCallbackListener {
 
-    public abstract void onFinish(String res);
+    public abstract void onHttpRequestFinish();
 
-    public abstract void onError();
+    public abstract void onHttpRequestError(Exception e);
 
 }

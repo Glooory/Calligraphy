@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -28,7 +27,7 @@ import com.glooory.calligraphy.fragments.OtherfontsFragment;
 /**
  * Created by Glooo on 2016/5/13 0013.
  */
-public class UniversalActivity extends AppCompatActivity {
+public class UniversalActivity extends BaseActivity {
     public static final String STATE_FRAG = "state_frag";
     private Toolbar mToolbar;
     Fragment fragment = null;
@@ -143,15 +142,6 @@ public class UniversalActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     private void startWorksActivity() {

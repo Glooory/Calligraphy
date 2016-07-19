@@ -95,9 +95,9 @@ public class CharAdapter extends RecyclerView.Adapter<CharAdapter.CharHolder> {
                 intent.putExtra(Constants.IMAGE_PAGER_INDEX, displayActivityIndex);
                 intent.putExtra(Constants.IMAGE_POSITION, position);
                 if (Build.VERSION.SDK_INT >= 21) {
-                    mContext.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext).toBundle());
+                    ((Activity)mContext).startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext).toBundle());
                 } else {
-                    mContext.startActivity(intent);
+                    ((Activity)mContext).startActivity(intent);
                 }
             }
         });

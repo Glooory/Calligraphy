@@ -1,17 +1,24 @@
 package com.glooory.calligraphy.Utils;
 
+import android.app.Activity;
 import android.content.Context;
+
+import com.glooory.calligraphy.Callbacks.FileCacheListener;
+import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.modul.CalliWork;
+import com.orhanobut.logger.Logger;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Glooo on 2016/7/17 0017.
@@ -25,9 +32,9 @@ public class FileUtil {
     }
 
     //将请求到的网络数据保存到文件中
-    public static void savePins(Context context, String response, String fileName) {
+    public static boolean savePins(Context context, String response, String fileName) {
         if (response.isEmpty()) {
-            return;
+            return false;
         }
         File rootFile = context.getCacheDir();
         if (!rootFile.exists()) {
@@ -55,8 +62,10 @@ public class FileUtil {
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             }
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         } finally {
             if (bufferedReader != null) {
                 try {
@@ -76,8 +85,56 @@ public class FileUtil {
     }
 
     //从缓存文件中读取数据
-    public static String readPins(Context context, String fileName) {
-        File cacheFile = new File(context.getCacheDir(), fileName);
+    public static void readPins(final Context context, int worksType,
+                                final FileCacheListener listener) {
+        if (worksType == 0) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Logger.d("开始异步从缓存文件中取出普通作品数据");
+                    Logger.d(context == null);
+                    List<CalliWork> listA, listB;
+                    listA = readFromCache(context, Constants.NOR_WORKS_PINID_A, listener);
+                    listB = readFromCache(context, Constants.NOR_WORKS_PINID_B, listener);
+                    listA.addAll(listB);
+                    if (listener != null && !listB.isEmpty()) {
+                        Logger.d("异步从缓存文件中取出普通作品数据完成");
+                        final List<CalliWork> finalListB = listA;
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.readCacheFinish(finalListB);
+                            }
+                        });
+                    }
+                }
+            }).start();
+        } else if (worksType == 1) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Logger.d("开始异步从缓存文件中取出加花作品数据");
+                    List<CalliWork> list = new ArrayList<CalliWork>();
+                    list = readFromCache(context, Constants.FLO_WORKS_PINID, listener);
+                    if (listener != null && !list.isEmpty()) {
+                        Logger.d("异步从缓存文件中取出加花作品数据完成");
+                        final List<CalliWork> finalList = list;
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                listener.readCacheFinish(finalList);
+                            }
+                        });
+                    }
+                }
+            }).start();
+        }
+
+    }
+
+    public static List<CalliWork> readFromCache(Context context, String cacheFileName, FileCacheListener listener) {
+        List<CalliWork> mList = new ArrayList<>();
+        File cacheFile = new File(context.getCacheDir(), cacheFileName);
         if (!cacheFile.exists()) {
             return null;
         }
@@ -89,11 +146,14 @@ public class FileUtil {
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
             }
-            return stringBuilder.toString();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (!stringBuilder.toString().isEmpty()) {
+                List<CalliWork> works = NetworkUtil.parseWorks(stringBuilder.toString(), mList);
+                return works;
+            }
+        } catch (Exception e) {
+            if (listener != null) {
+                listener.readCacheError(e);
+            }
         } finally {
             if (bufferedReader != null) {
                 try {

@@ -78,4 +78,6 @@ public class Constants {
     public static final String FLO_WORKS_URLS = "http://api.huaban.com/boards/30765816/pins?limit=?";
 
     public static final String IMG_URL_PREFIX = "http://img.hb.aicdn.com/";
+
+    public static final String POSITION = "position";
 }

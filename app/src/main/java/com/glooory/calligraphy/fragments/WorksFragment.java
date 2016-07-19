@@ -1,5 +1,6 @@
 package com.glooory.calligraphy.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,7 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.glooory.calligraphy.Callbacks.FileCacheListener;
+import com.glooory.calligraphy.Callbacks.HttpCallbackListener;
 import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.Utils.FileUtil;
@@ -21,6 +25,7 @@ import com.glooory.calligraphy.activities.WorksActivity;
 import com.glooory.calligraphy.adapters.WorksAdapter;
 import com.glooory.calligraphy.modul.CalliWork;
 import com.glooory.calligraphy.views.SpaceItemDecoration;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,21 +33,38 @@ import java.util.List;
 /**
  * Created by Glooo on 2016/7/13 0013.
  */
-public class WorksFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class WorksFragment extends Fragment
+        implements SwipeRefreshLayout.OnRefreshListener,
+        HttpCallbackListener, FileCacheListener {
+    private Context mContext;
     private SwipeRefreshLayout mSwipeLayout;
     private RecyclerView mRecyclerView;
     private WorksAdapter mAdapter;
     private int worksIndex;
-    public static List<CalliWork> mWorks;
+    public static List<CalliWork> mWorks = new ArrayList<>();
     private boolean isFirstTime;
+
+    public static WorksFragment newInstance(int type) {
+        WorksFragment fragment = new WorksFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.WORKS_INDEX, type);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         worksIndex = getArguments().getInt(Constants.WORKS_INDEX);
         Log.d("WorksFragment", "worksIndex:" + worksIndex);
-        mWorks = new ArrayList<>();
-        isFirstTime = PreferenceManager.getDefaultSharedPreferences(getContext())
+        clearWorksList();
+        isFirstTime = PreferenceManager.getDefaultSharedPreferences(mContext)
                 .getBoolean(WorksActivity.FIRST_TIME, true);
     }
 
@@ -56,13 +78,11 @@ public class WorksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 ,R.color.color_scheme_1_3, R.color.color_scheme_1_4);
         mSwipeLayout.measure(View.MEASURED_SIZE_MASK, View.MEASURED_HEIGHT_STATE_SHIFT);
         mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setRefreshing(true);
         if (isFirstTime) {
-            httpRequest();
-        } else {
-            loadFromCache();
+            mSwipeLayout.setRefreshing(true);
         }
-        mAdapter = new WorksAdapter(getActivity(), worksIndex);
+        NetworkUtil.loadPins(mContext, this);
+        mAdapter = new WorksAdapter(mContext, worksIndex);
         mAdapter.setWorkList(mWorks);
         StaggeredGridLayoutManager mManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mManager);
@@ -82,99 +102,45 @@ public class WorksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         }
     }
 
-    private void httpRequest() {
-        if (worksIndex == Constants.WORKS_FLOURISHING_INDEX) {
-            Thread subThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    requestFloFromNetwork();
-                    if (isFirstTime) {
-                        requestNorFromNetWork();
-                    }
-                    loadFlo();
-                }
-            });
-            joinThread(subThread);
-        } else {
-            Thread subThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    requestNorFromNetWork();
-                    if (isFirstTime) {
-                        requestFloFromNetwork();
-                    }
-                    loadNor();
-                }
-            });
-            joinThread(subThread);
-        }
+    @Override
+    public void onRefresh() {
+        Logger.d("Fragment中的onRefesh回调方法");
+        NetworkUtil.loadPins(mContext, this);
     }
 
-    private void loadFromCache() {
-        if (worksIndex == Constants.WORKS_FLOURISHING_INDEX) {
-            Thread subThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    loadFlo();
-                }
-            });
-            joinThread(subThread);
-        } else {
-            Thread subThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    loadNor();
-                }
-            });
-            joinThread(subThread);
-        }
-    }
 
-    private void requestNorFromNetWork() {
-        String resA = NetworkUtil.loadPins(Constants.NOR_WORKS_URLS_A);
-        FileUtil.savePins(getContext(), resA, Constants.NOR_WORKS_PINID_A);
-        String resB = NetworkUtil.loadPins(Constants.NOR_WORKS_URLS_B);
-        FileUtil.savePins(getContext(), resB, Constants.NOR_WORKS_PINID_B);
-    }
-
-    private void loadNor() {
-        if (FileUtil.cacheIsExist(getContext(), Constants.NOR_WORKS_PINID_A)
-                && FileUtil.cacheIsExist(getContext(), Constants.NOR_WORKS_PINID_B)) {
-            mWorks.clear();
-            NetworkUtil.parseWorks(FileUtil.readPins(getContext(), Constants.NOR_WORKS_PINID_A), mWorks);
-            NetworkUtil.parseWorks(FileUtil.readPins(getContext(), Constants.NOR_WORKS_PINID_B), mWorks);
-        } else {
-            httpRequest();
-        }
-    }
-
-    private void requestFloFromNetwork() {
-        String res = NetworkUtil.loadPins(Constants.FLO_WORKS_URLS);
-        FileUtil.savePins(getContext(), res, Constants.FLO_WORKS_PINID);
-    }
-
-    private void loadFlo() {
-        if (FileUtil.cacheIsExist(getContext(), Constants.FLO_WORKS_PINID)) {
-            mWorks.clear();
-            NetworkUtil.parseWorks(FileUtil.readPins(getContext(), Constants.FLO_WORKS_PINID), mWorks);
-        } else {
-            httpRequest();
-        }
-    }
-
-    private void joinThread(Thread thread) {
-        try {
-            thread.start();
-            thread.join();
-            mSwipeLayout.setRefreshing(false);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void readCacheFinish(List<CalliWork> workList) {
+//        Logger.d("Fragment中的readCacheFinish回调方法");
+        clearWorksList();
+        this.mWorks = workList;
+        mAdapter.setWorkList(workList);
+        mSwipeLayout.setRefreshing(false);
     }
 
     @Override
-    public void onRefresh() {
-        httpRequest();
-        mAdapter.setWorkList(mWorks);
+    public void readCacheError(Exception e) {
+//        Logger.d("Fragment中的readCacheError回调方法");
+        mSwipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onHttpRequestFinish() {
+//        Logger.d("Fragment中的HTTP请求成功的回调方法");
+        FileUtil.readPins(mContext, worksIndex, this);
+//        Logger.d(mContext == null);
+    }
+
+    @Override
+    public void onHttpRequestError(Exception e) {
+//        Logger.d("Fragment中的HTTP请求失败的回调方法");
+        Toast.makeText(mContext, "网络不可用", Toast.LENGTH_SHORT).show();
+        mSwipeLayout.setRefreshing(false);
+    }
+
+    public void clearWorksList() {
+        if (mWorks != null) {
+            mWorks.clear();
+        }
     }
 }

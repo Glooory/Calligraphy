@@ -1,9 +1,7 @@
 package com.glooory.calligraphy.activities;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.glooory.calligraphy.Constants.Constants;
@@ -14,8 +12,7 @@ import com.glooory.calligraphy.views.PinchImageViewPager;
 /**
  * Created by Glooo on 2016/5/16 0016.
  */
-public class ImagePagerActivity extends AppCompatActivity {
-
+public class ImagePagerActivity extends BaseActivity {
     private PinchImageViewPager pager;
     private ImagePagerAdapter mAdapter;
 
@@ -34,20 +31,7 @@ public class ImagePagerActivity extends AppCompatActivity {
         pager.setCurrentItem(position);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        } else {
-            finish();
-        }
-    }
-
     public void finishThis() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        } else {
-            finish();
-        }
+        finishSelf();
     }
 }

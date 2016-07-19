@@ -1,9 +1,7 @@
 package com.glooory.calligraphy.activities;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -14,7 +12,7 @@ import com.glooory.calligraphy.views.PinchImageView;
 /**
  * Created by Glooo on 2016/5/16 0016.
  */
-public class DisplayActivity extends AppCompatActivity {
+public class DisplayActivity extends BaseActivity {
     private PinchImageView imageView;
 
     @Override
@@ -34,20 +32,7 @@ public class DisplayActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        } else {
-            finish();
-        }
-    }
-
     public void finishThis() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.finishAfterTransition();
-        } else {
-            this.finish();
-        }
+        finishSelf();
     }
 }

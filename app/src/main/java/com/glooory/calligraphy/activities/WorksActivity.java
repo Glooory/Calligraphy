@@ -1,12 +1,9 @@
 package com.glooory.calligraphy.activities;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,7 +17,7 @@ import com.glooory.calligraphy.fragments.WorksFragment;
 /**
  * Created by Glooo on 2016/5/15 0015.
  */
-public class WorksActivity extends AppCompatActivity {
+public class WorksActivity extends BaseActivity {
     public static final String FIRST_TIME = "first_time";
     private Toolbar mToolbar;
     private int index;
@@ -74,41 +71,7 @@ public class WorksActivity extends AppCompatActivity {
     }
 
     private Fragment getFragment(int index) {
-        Bundle bundle = new Bundle();
-        switch (index) {
-            case Constants.WORKS_NORMAL_INDEX:
-                fragment = new WorksFragment();
-                bundle.putInt(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
-                fragment.setArguments(bundle);
-                break;
-            case Constants.WORKS_FLOURISHING_INDEX:
-                fragment = new WorksFragment();
-                bundle.putInt(Constants.WORKS_INDEX, Constants.WORKS_FLOURISHING_INDEX);
-                fragment.setArguments(bundle);
-                break;
-        }
+        fragment = WorksFragment.newInstance(index);
         return fragment;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                finishAfterTransition();
-                return true;
-            } else {
-                super.onBackPressed();
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        } else {
-            super.onBackPressed();
-        }
     }
 }
