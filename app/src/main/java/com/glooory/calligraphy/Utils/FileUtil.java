@@ -6,7 +6,6 @@ import android.content.Context;
 import com.glooory.calligraphy.Callbacks.FileCacheListener;
 import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.modul.CalliWork;
-import com.orhanobut.logger.Logger;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -91,14 +90,18 @@ public class FileUtil {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Logger.d("开始异步从缓存文件中取出普通作品数据");
-                    Logger.d(context == null);
+//                    Logger.d("开始异步从缓存文件中取出普通作品数据");
+//                    Logger.d(context == null);
                     List<CalliWork> listA, listB;
                     listA = readFromCache(context, Constants.NOR_WORKS_PINID_A, listener);
                     listB = readFromCache(context, Constants.NOR_WORKS_PINID_B, listener);
-                    listA.addAll(listB);
+                    if (listA != null && listB != null) {
+                        listA.addAll(listB);
+                    } else {
+                        return;
+                    }
                     if (listener != null && !listB.isEmpty()) {
-                        Logger.d("异步从缓存文件中取出普通作品数据完成");
+//                        Logger.d("异步从缓存文件中取出普通作品数据完成");
                         final List<CalliWork> finalListB = listA;
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
@@ -113,11 +116,14 @@ public class FileUtil {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Logger.d("开始异步从缓存文件中取出加花作品数据");
-                    List<CalliWork> list = new ArrayList<CalliWork>();
+//                    Logger.d("开始异步从缓存文件中取出加花作品数据");
+                    List<CalliWork> list;
                     list = readFromCache(context, Constants.FLO_WORKS_PINID, listener);
+                    if (list == null) {
+                        return;
+                    }
                     if (listener != null && !list.isEmpty()) {
-                        Logger.d("异步从缓存文件中取出加花作品数据完成");
+//                        Logger.d("异步从缓存文件中取出加花作品数据完成");
                         final List<CalliWork> finalList = list;
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override

@@ -35,7 +35,7 @@ public class ImageLoadUtil {
 
     public static void loadImageWithPlaceHolders(Context context, ImageView imageView, String url, int width, int height) {
         Picasso picasso = Picasso.with(context);
-        picasso.setIndicatorsEnabled(true);
+//        picasso.setIndicatorsEnabled(true);
         picasso.load(url)
                 .resize(width, height)
                 .centerInside()

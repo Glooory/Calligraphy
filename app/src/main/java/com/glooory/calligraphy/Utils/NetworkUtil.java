@@ -8,7 +8,6 @@ import android.net.NetworkInfo;
 import com.glooory.calligraphy.Callbacks.HttpCallbackListener;
 import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.modul.CalliWork;
-import com.orhanobut.logger.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,12 +48,12 @@ public class NetworkUtil {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Logger.d("开始异步请求网络数据");
+//                    Logger.d("开始异步请求网络数据");
                     httpRequest(context, Constants.NOR_WORKS_URLS_A, Constants.NOR_WORKS_PINID_A, httpCallbackListener);
                     httpRequest(context, Constants.NOR_WORKS_URLS_B, Constants.NOR_WORKS_PINID_B, httpCallbackListener);
                     httpRequest(context, Constants.FLO_WORKS_URLS, Constants.FLO_WORKS_PINID, httpCallbackListener);
                     if (httpCallbackListener != null) {
-                        Logger.d("异步网络数据请求完成");
+//                        Logger.d("异步网络数据请求完成");
                         httpCallbackListener.onHttpRequestFinish();
                     }
                 }

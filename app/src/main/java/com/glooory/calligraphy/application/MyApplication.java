@@ -2,7 +2,6 @@ package com.glooory.calligraphy.application;
 
 import android.app.Application;
 
-import com.orhanobut.logger.Logger;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
@@ -17,7 +16,7 @@ public class MyApplication extends Application {
         Picasso picasso =  new Picasso.Builder(this).
                 downloader(new OkHttpDownloader(getCacheDir(), 150 * 1024 * 1024)).build();
         Picasso.setSingletonInstance(picasso);
-        Logger.init();
+//        Logger.init();
     }
 
 }

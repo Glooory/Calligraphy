@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import com.glooory.calligraphy.activities.WorksActivity;
 import com.glooory.calligraphy.adapters.WorksAdapter;
 import com.glooory.calligraphy.modul.CalliWork;
 import com.glooory.calligraphy.views.SpaceItemDecoration;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +60,7 @@ public class WorksFragment extends Fragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         worksIndex = getArguments().getInt(Constants.WORKS_INDEX);
-        Log.d("WorksFragment", "worksIndex:" + worksIndex);
+        NetworkUtil.loadPins(mContext, this);
         clearWorksList();
         isFirstTime = PreferenceManager.getDefaultSharedPreferences(mContext)
                 .getBoolean(WorksActivity.FIRST_TIME, true);
@@ -81,7 +79,6 @@ public class WorksFragment extends Fragment
         if (isFirstTime) {
             mSwipeLayout.setRefreshing(true);
         }
-        NetworkUtil.loadPins(mContext, this);
         mAdapter = new WorksAdapter(mContext, worksIndex);
         mAdapter.setWorkList(mWorks);
         StaggeredGridLayoutManager mManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -104,8 +101,13 @@ public class WorksFragment extends Fragment
 
     @Override
     public void onRefresh() {
-        Logger.d("Fragment中的onRefesh回调方法");
-        NetworkUtil.loadPins(mContext, this);
+//        Logger.d("Fragment中的onRefesh回调方法");
+        if (NetworkUtil.isOnline(mContext)) {
+            NetworkUtil.loadPins(mContext, this);
+        } else {
+            Toast.makeText(mContext, "网络不可用，请检查网络设置。", Toast.LENGTH_SHORT).show();
+            mSwipeLayout.setRefreshing(false);
+        }
     }
 
 
@@ -122,6 +124,7 @@ public class WorksFragment extends Fragment
     public void readCacheError(Exception e) {
 //        Logger.d("Fragment中的readCacheError回调方法");
         mSwipeLayout.setRefreshing(false);
+        Toast.makeText(mContext, "解析数据失败，请重试。", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -134,7 +137,7 @@ public class WorksFragment extends Fragment
     @Override
     public void onHttpRequestError(Exception e) {
 //        Logger.d("Fragment中的HTTP请求失败的回调方法");
-        Toast.makeText(mContext, "网络不可用", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "网络请求失败，请稍后重试。", Toast.LENGTH_SHORT).show();
         mSwipeLayout.setRefreshing(false);
     }
 
