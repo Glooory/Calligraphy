@@ -1,65 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="6dp"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp"
-    android:paddingTop="6dp"
-    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <LinearLayout
-        android:id="@+id/cards_container_1"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:layout_height="match_parent"
+        android:paddingBottom="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp">
 
-    <include
-        android:id="@+id/card_italy"
-        layout="@layout/card_italy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="2dp"
-        android:layout_weight="1"
-        />
-
-    <include
-        android:id="@+id/card_roundhand"
-        layout="@layout/card_roundhand"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginLeft="2dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cards_container_1"
-        android:layout_marginTop="4dp"
-        android:orientation="horizontal">
-
-        <include
-            android:id="@+id/card_handprinted"
-            layout="@layout/card_handprinted"
+        <LinearLayout
+            android:id="@+id/cards_container_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"/>
+            android:orientation="horizontal">
 
-        <include
-            android:id="@+id/card_copperplate"
-            layout="@layout/card_copperplate"
+            <include
+                android:id="@+id/card_italy"
+                layout="@layout/card_italy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/card_roundhand"
+                layout="@layout/card_roundhand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"/>
+            android:layout_below="@id/cards_container_1"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
 
-    </LinearLayout>
-</RelativeLayout>
+            <include
+                android:id="@+id/card_handprinted"
+                layout="@layout/card_handprinted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/card_copperplate"
+                layout="@layout/card_copperplate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>
