@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.Utils.AnimationUtil;
+import com.glooory.calligraphy.utils.AnimationUtil;
 import com.glooory.calligraphy.activities.ImagePagerActivity;
 
 /**

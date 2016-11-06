@@ -14,12 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.glooory.calligraphy.Callbacks.FileCacheListener;
-import com.glooory.calligraphy.Callbacks.HttpCallbackListener;
-import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.callbacks.FileCacheListener;
+import com.glooory.calligraphy.callbacks.HttpCallbackListener;
+import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.Utils.FileUtil;
-import com.glooory.calligraphy.Utils.NetworkUtil;
+import com.glooory.calligraphy.utils.FileUtil;
+import com.glooory.calligraphy.utils.NetworkUtil;
 import com.glooory.calligraphy.activities.WorksActivity;
 import com.glooory.calligraphy.adapters.WorksAdapter;
 import com.glooory.calligraphy.modul.CalliWork;

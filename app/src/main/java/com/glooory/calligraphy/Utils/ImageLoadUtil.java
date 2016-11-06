@@ -1,4 +1,4 @@
-package com.glooory.calligraphy.Utils;
+package com.glooory.calligraphy.utils;
 
 import android.content.Context;
 import android.widget.ImageView;

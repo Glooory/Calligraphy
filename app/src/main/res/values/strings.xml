@@ -15,8 +15,18 @@
     <string name="font_round_hand">圆体</string>
     <string name="font_hand_printed">手写印刷体</string>
 
+    <string name="calligraphy">英文书法</string>
+    <string name="other_font">其他字体</string>
+    <string name="flourishing">装饰加花</string>
+    <string name="works">作品欣赏</string>
+
     <string name="alphabet">字母表</string>
     <string name="tips">书写技巧</string>
+
+    <string-array name="works_title">
+        <item>书法作品</item>
+        <item>加花作品</item>
+    </string-array>
 
     <string name="roundhand_spe_des">圆体字母由连续的曲线组成，显得十分圆润、流畅，书写能表现出抒情舞蹈的姿态，给人以飘逸柔情的美感。</string>
     <string name="roundhand_alphabet">圆体字母表</string>
@@ -46,11 +56,11 @@
     <string name="handprinted_tip_2">书写时底线一定要齐，字母高度要一致，中心线要平行。</string>
     <string name="handprinted_tip_3">手写印刷体可以是斜写的也可以是直立的。</string>
 
-    <string name="calligraphy">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;书法在英文里叫 calligraphy ，来源于希腊文，相当于 “好”、“美丽”、“画画” 等字眼，即优美的书写。它包括各种书写的，涂画绘写的和设计的书写内容。
+    <string name="calligraphy_des">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;书法在英文里叫 calligraphy ，来源于希腊文，相当于 “好”、“美丽”、“画画” 等字眼，即优美的书写。它包括各种书写的，涂画绘写的和设计的书写内容。
             英文书法必须是很好的书写，并获得书法家承认的艺术品。它涉及字形知识及书写技巧、工具材料的应用；要求书写各部分布局恰当，比例协调，适度进行夸张变化。一幅好的英文书法作品跟东方书法一样，
             能表达一种抽象的意境，启迪人们的思维，给人以一种趣味无穷的美的享受。\n&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;英文书法的地位虽不像东方书法那样重要，但并非说没有它的一席之地。英文书法也有它悠久的历史及其发展变化的过程，也有它的
             重要的书法家、代表作和专门的研究组织。通过规范的书写训练，能培养人的严谨的治学精神，提高对艺术的鉴赏水准和品味。从对一个人的素养要求看，学习英文书写的意义永远不只限于书写本身。</string>
-    <string name="flourishing">Flourishing \nFlourishing 又称加花，简称 FL 。\n FL 在书写中主要起装饰性的作用，分为点尖FL和平尖FL。</string>
+    <string name="flourishing_des">Flourishing \nFlourishing 又称加花，简称 FL 。\n FL 在书写中主要起装饰性的作用，分为点尖FL和平尖FL。</string>
     <string name="fl_point">点尖 FL \n点尖 FL 的范围主要包括画鸟（等其它动物），画玫瑰等。</string>
     <string name="fl_plain">平尖 FL \n平尖 FL 的主要内容是平行并交错的Cadels。</string>
 
@@ -60,4 +70,5 @@
     <string name="gothic">Gothic</string>
 
     <string name="declaration">本软件内容参考《英文书法范典》（闵志平、朱淑贤编著）一书及百度圆体英文吧，纯属个人爱好使用，如果喜欢请购买正版书籍。</string>
+    <string name="no_more_data">没有更多了</string>
 </resources>

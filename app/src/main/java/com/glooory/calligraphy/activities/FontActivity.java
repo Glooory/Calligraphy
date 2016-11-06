@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
-import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.fragments.HdprintedAlpFragment;
 import com.glooory.calligraphy.fragments.HdprintedDesFragment;

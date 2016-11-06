@@ -1,4 +1,4 @@
-package com.glooory.calligraphy.Utils;
+package com.glooory.calligraphy.utils;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;

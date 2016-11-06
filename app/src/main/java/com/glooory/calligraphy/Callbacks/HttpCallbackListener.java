@@ -1,4 +1,4 @@
-package com.glooory.calligraphy.Callbacks;
+package com.glooory.calligraphy.callbacks;
 
 /**
  * Created by Glooo on 2016/7/17 0017.

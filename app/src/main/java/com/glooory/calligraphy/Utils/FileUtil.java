@@ -1,10 +1,10 @@
-package com.glooory.calligraphy.Utils;
+package com.glooory.calligraphy.utils;
 
 import android.app.Activity;
 import android.content.Context;
 
-import com.glooory.calligraphy.Callbacks.FileCacheListener;
-import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.callbacks.FileCacheListener;
+import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.modul.CalliWork;
 
 import java.io.BufferedReader;
@@ -93,7 +93,7 @@ public class FileUtil {
 //                    Logger.d("开始异步从缓存文件中取出普通作品数据");
 //                    Logger.d(context == null);
                     List<CalliWork> listA, listB;
-                    listA = readFromCache(context, Constants.NOR_WORKS_PINID_A, listener);
+                    listA = readFromCache(context, "dfal", listener);
                     listB = readFromCache(context, Constants.NOR_WORKS_PINID_B, listener);
                     if (listA != null && listB != null) {
                         listA.addAll(listB);

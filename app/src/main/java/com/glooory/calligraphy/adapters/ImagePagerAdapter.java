@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.Utils.ImageLoadUtil;
+import com.glooory.calligraphy.utils.ImageLoadUtil;
 import com.glooory.calligraphy.activities.ImagePagerActivity;
 import com.glooory.calligraphy.fragments.WorksFragment;
 import com.glooory.calligraphy.views.PinchImageView;

@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.views.PinchImageView;
 

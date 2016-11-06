@@ -20,9 +20,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.Utils.NetworkUtil;
+import com.glooory.calligraphy.utils.NetworkUtil;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -161,7 +161,7 @@ public class MainActivity extends BaseActivity
             Intent intentFlouri = new Intent(MainActivity.this, UniversalActivity.class);
             intentFlouri.putExtra(Constants.FRAGMENT_INDEX, Constants.FLOURIFRAG);
             lanuchActivity(intentFlouri);
-        } else if (id == R.id.nav_more_piece) {
+        } else if (id == R.id.nav_works) {
             SharedPreferences spf = PreferenceManager.getDefaultSharedPreferences(this);
             boolean isFirstTime = spf.getBoolean(WorksActivity.FIRST_TIME, true);
             if (isFirstTime && !NetworkUtil.isOnline(this)) {
@@ -233,9 +233,10 @@ public class MainActivity extends BaseActivity
     }
 
     private void startWorksActivity() {
-        Intent intentMoreWorks = new Intent(MainActivity.this, WorksActivity.class);
-        intentMoreWorks.putExtra(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
-        lanuchActivity(intentMoreWorks);
+//        Intent intentMoreWorks = new Intent(MainActivity.this, WorksActivity.class);
+//        intentMoreWorks.putExtra(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
+//        lanuchActivity(intentMoreWorks);
+        WorksRCActivity.launch(MainActivity.this);
     }
 
     private void lanuchActivity(Intent intent) {

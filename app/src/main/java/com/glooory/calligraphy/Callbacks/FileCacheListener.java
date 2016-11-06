@@ -1,4 +1,4 @@
-package com.glooory.calligraphy.Callbacks;
+package com.glooory.calligraphy.callbacks;
 
 import com.glooory.calligraphy.modul.CalliWork;
 

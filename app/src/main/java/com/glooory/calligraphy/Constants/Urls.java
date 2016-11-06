@@ -1,4 +1,4 @@
-package com.glooory.calligraphy.Constants;
+package com.glooory.calligraphy.constants;
 
 /**
  * Created by Glooo on 2016/5/15 0015.

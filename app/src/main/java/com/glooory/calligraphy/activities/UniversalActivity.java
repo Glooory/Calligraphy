@@ -17,9 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.Utils.NetworkUtil;
+import com.glooory.calligraphy.utils.NetworkUtil;
 import com.glooory.calligraphy.fragments.CalligraphyFragment;
 import com.glooory.calligraphy.fragments.FlourishingFragment;
 import com.glooory.calligraphy.fragments.OtherfontsFragment;

@@ -1,4 +1,4 @@
-package com.glooory.calligraphy.Constants;
+package com.glooory.calligraphy.constants;
 
 import com.glooory.calligraphy.R;
 
@@ -35,6 +35,9 @@ public class Constants {
     public static final int WORKS_NORMAL_INDEX = 0;
     public static final int WORKS_FLOURISHING_INDEX = 1;
 
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String AUTH_VALUE = "Basic OTkzNzQzZDIwOGFlNDkyODg4Mzc6MTFjYmU4NDFlMGJmNDJmOWJlMGM4ZjZkM2VlMzI3ZWM";
+
     public static final int[] ITALIC_CHAR_IDS = new int[] {
             R.drawable.italy_a_640, R.drawable.italy_b_640, R.drawable.italy_c_640, R.drawable.italy_d_640,
             R.drawable.italy_e_640, R.drawable.italy_f_640, R.drawable.italy_g_640, R.drawable.italy_h_640,
@@ -65,7 +68,9 @@ public class Constants {
             R.drawable.handprinted_y_640, R.drawable.handprinted_z_640
     };
 
-    public static final String NOR_WORKS_PINID_A = "30752981";
+    public static final String CALLI_BOARD_ID = "30772235";
+
+    public static final String FLOURISHING_BOARD_ID = "30765816";
 
     public static final String NOR_WORKS_URLS_A = "http://api.huaban.com/boards/30752981/pins?limit=?";
 
