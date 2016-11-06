@@ -47,4 +47,5 @@ captures/
 # Keystore files
 *.jks
 
+/.idea
 /projectFilesBackup
