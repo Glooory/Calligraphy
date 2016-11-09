@@ -1,4 +1,4 @@
-package com.glooory.calligraphy.views;
+package com.glooory.calligraphy.widgets;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

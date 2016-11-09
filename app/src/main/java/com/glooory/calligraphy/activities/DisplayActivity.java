@@ -7,7 +7,7 @@ import android.view.WindowManager;
 
 import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.views.PinchImageView;
+import com.glooory.calligraphy.widgets.PinchImageView;
 
 /**
  * Created by Glooo on 2016/5/16 0016.

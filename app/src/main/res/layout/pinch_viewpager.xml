@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <com.glooory.calligraphy.views.PinchImageViewPager
+    <com.glooory.calligraphy.widgets.PinchImageViewPager
         android:id="@+id/pinch_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
