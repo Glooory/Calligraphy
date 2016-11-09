@@ -1,4 +1,4 @@
-package com.glooory.calligraphy.views;
+package com.glooory.calligraphy.widgets;
 
 import android.animation.ValueAnimator;
 import android.content.Context;

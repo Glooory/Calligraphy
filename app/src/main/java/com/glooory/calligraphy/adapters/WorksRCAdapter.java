@@ -1,6 +1,10 @@
 package com.glooory.calligraphy.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,10 +55,31 @@ public class WorksRCAdapter extends BaseQuickAdapter<PinsBean> {
             holder.getView(R.id.imgbtn_gif).setVisibility(View.INVISIBLE);
         }
 
-        holder.addOnClickListener(R.id.card_work);
-
         //加载pin图片
-        ImageLoader.load(mContext, (ImageView) holder.getView(R.id.card_works_img), urlImg);
+        ImageLoader.load(mContext, (ImageView) holder.getView(R.id.card_works_img), urlImg, getPlaceHolder(pinsBean, urlImg));
+    }
+
+    private Drawable getPlaceHolder(PinsBean bean, String url) {
+        ColorDrawable drawable;
+        if (bean.getFile().getColors() != null && bean.getFile().getColors().size() > 0) {
+            int color = bean.getFile().getColors().get(0).getColor();
+            if (color == 0) {
+                //黑色
+                drawable = new ColorDrawable(ContextCompat.getColor(mContext, R.color.grey_1000));
+            } else {
+                String hexColor = Integer.toHexString(color);
+                if (hexColor.length() == 4) {
+                    hexColor = "00" + hexColor;
+                }
+                if (hexColor.length() == 5) {
+                    hexColor = "0" + hexColor;
+                }
+                drawable = new ColorDrawable(Color.parseColor("#" + hexColor));
+            }
+        } else {
+            drawable = new ColorDrawable(ContextCompat.getColor(mContext, R.color.grey_a700));
+        }
+        return drawable;
     }
 
 }

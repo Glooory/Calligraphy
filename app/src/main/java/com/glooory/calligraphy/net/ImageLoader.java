@@ -1,6 +1,7 @@
 package com.glooory.calligraphy.net;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +19,22 @@ public class ImageLoader {
         Glide.with(context)
                 .load(url)
                 .crossFade()
+                .into(imageView);
+    }
+
+    public static void load(Context context, ImageView imageView, String url, Drawable placeHolder) {
+        Glide.with(context)
+                .load(url)
+                .crossFade()
+                .placeholder(placeHolder)
+                .into(imageView);
+    }
+
+    public static void load(Context context, ImageView imageView, String url, int placeHolderResId) {
+        Glide.with(context)
+                .load(url)
+                .crossFade()
+                .placeholder(placeHolderResId)
                 .into(imageView);
     }
 

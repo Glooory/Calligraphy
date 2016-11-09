@@ -11,8 +11,8 @@ import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.utils.ImageLoadUtil;
 import com.glooory.calligraphy.activities.ImagePagerActivity;
 import com.glooory.calligraphy.fragments.WorksFragment;
-import com.glooory.calligraphy.views.PinchImageView;
-import com.glooory.calligraphy.views.PinchImageViewPager;
+import com.glooory.calligraphy.widgets.PinchImageView;
+import com.glooory.calligraphy.widgets.PinchImageViewPager;
 
 /**
  * Created by Glooo on 2016/5/16 0016.

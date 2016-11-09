@@ -7,7 +7,7 @@ import android.view.WindowManager;
 import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.adapters.ImagePagerAdapter;
-import com.glooory.calligraphy.views.PinchImageViewPager;
+import com.glooory.calligraphy.widgets.PinchImageViewPager;
 
 /**
  * Created by Glooo on 2016/5/16 0016.

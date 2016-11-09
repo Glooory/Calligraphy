@@ -23,7 +23,7 @@ import com.glooory.calligraphy.utils.NetworkUtil;
 import com.glooory.calligraphy.activities.WorksActivity;
 import com.glooory.calligraphy.adapters.WorksAdapter;
 import com.glooory.calligraphy.modul.CalliWork;
-import com.glooory.calligraphy.views.SpaceItemDecoration;
+import com.glooory.calligraphy.widgets.SpaceItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;

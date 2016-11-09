@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.glooory.calligraphy.views;
+package com.glooory.calligraphy.widgets;
 
 import android.content.Context;
 import android.content.res.Resources;
