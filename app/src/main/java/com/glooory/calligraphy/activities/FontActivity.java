@@ -12,13 +12,13 @@ import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.fragments.HdprintedAlpFragment;
 import com.glooory.calligraphy.fragments.HdprintedDesFragment;
-import com.glooory.calligraphy.fragments.HdprintedTipsFragment;
+import com.glooory.calligraphy.fragments.HdprintedFragment;
 import com.glooory.calligraphy.fragments.ItalicAlpFragment;
 import com.glooory.calligraphy.fragments.ItalicDesFragment;
-import com.glooory.calligraphy.fragments.ItalicTipsFragment;
+import com.glooory.calligraphy.fragments.ItalicFragment;
 import com.glooory.calligraphy.fragments.RdhandAlpFragment;
 import com.glooory.calligraphy.fragments.RdhandDesFragment;
-import com.glooory.calligraphy.fragments.RdhandTipsFragment;
+import com.glooory.calligraphy.fragments.RdhandFragment;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -130,11 +130,11 @@ public class FontActivity extends BaseActivity implements MaterialTabListener {
                     break;
                 case TAB_TIPS:
                     if (activityType == Constants.ACTIVITY_ITALIC_INDEX) {
-                        fragment = new ItalicTipsFragment();
+                        fragment = new ItalicFragment();
                     } else if (activityType == Constants.ACTIVITY_ROUNDHAND_INDEX) {
-                        fragment = new RdhandTipsFragment();
+                        fragment = new RdhandFragment();
                     } else if (activityType == Constants.ACTIVITY_HANDPRINTED_INDEX) {
-                        fragment = new HdprintedTipsFragment();
+                        fragment = new HdprintedFragment();
                     }
                     break;
             }

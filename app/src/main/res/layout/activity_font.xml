@@ -13,7 +13,7 @@
 
         <include
             android:id="@+id/font_toolbar"
-            layout="@layout/app_bar"/>
+            layout="@layout/toolbar"/>
 
         <it.neokree.materialtabs.MaterialTabHost
             android:id="@+id/italy_material_tab_host"

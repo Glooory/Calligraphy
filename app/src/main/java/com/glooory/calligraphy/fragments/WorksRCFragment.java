@@ -9,12 +9,14 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.adapters.WorksRCAdapter;
+import com.glooory.calligraphy.activities.ImageDetailActivity;
+import com.glooory.calligraphy.adapters.WorksAdapter;
 import com.glooory.calligraphy.api.PinsApi;
 import com.glooory.calligraphy.api.RetrofitClient;
 import com.glooory.calligraphy.callbacks.FragmentRefreshListener;
@@ -41,7 +43,7 @@ public class WorksRCFragment extends Fragment implements BaseQuickAdapter.Reques
     private final int PAGESIZE = 20;
     private int mDataCountLastRequested = 20;
     private String mMaxId;
-    private WorksRCAdapter mAdapter;
+    private WorksAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private View mFooterView;
     private Context mContext;
@@ -86,7 +88,7 @@ public class WorksRCFragment extends Fragment implements BaseQuickAdapter.Reques
     }
 
     private void initAdapter() {
-        mAdapter = new WorksRCAdapter(mContext);
+        mAdapter = new WorksAdapter(mContext);
         //设置上滑自动建在的正在加载更多的自定义View
         View loadMoreView = LayoutInflater.from(mContext).inflate(R.layout.custom_loadmore_view, mRecyclerView, false);
         mAdapter.setLoadingView(loadMoreView);
@@ -100,6 +102,9 @@ public class WorksRCFragment extends Fragment implements BaseQuickAdapter.Reques
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
                 // TODO: 2016/11/5 0005 launch image detail activity
+                ImageDetailActivity.launch(getActivity(),
+                        (ImageView) view.findViewById(R.id.card_works_img),
+                        mAdapter.getItem(i).getFile().getKey());
             }
         });
     }

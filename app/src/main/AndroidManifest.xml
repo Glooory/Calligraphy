@@ -49,26 +49,15 @@
                 android:value=".activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.WorksActivity"
-            android:label=""
-            android:parentActivityName=".activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity
             android:name=".activities.ImagePagerActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.DisplayActivity"
-            android:label=""
+            android:name=".activities.ImageDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.WorksRCActivity"
+        <activity android:name=".activities.WorksActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

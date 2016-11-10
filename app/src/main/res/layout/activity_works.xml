@@ -12,7 +12,7 @@
 
         <include
             android:id="@+id/activity_gridview_app_bar"
-            layout="@layout/app_bar" />
+            layout="@layout/toolbar" />
 
         <FrameLayout
             android:id="@+id/activity_gridview_container"

@@ -1,112 +1,86 @@
 package com.glooory.calligraphy.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.widget.RecyclerView;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.glooory.calligraphy.constants.Constants;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.utils.ImageLoadUtil;
-import com.glooory.calligraphy.activities.ImagePagerActivity;
-import com.glooory.calligraphy.modul.CalliWork;
+import com.glooory.calligraphy.entity.PinsBean;
+import com.glooory.calligraphy.net.ImageLoader;
+import com.glooory.calligraphy.utils.Utils;
 
-import java.util.List;
 
 /**
- * Created by Glooo on 2016/7/13 0013.
+ * Created by Glooory on 2016/11/5 0005 15:43.
  */
-public class WorksAdapter extends RecyclerView.Adapter<WorksAdapter.WorkHolder> {
-    private LayoutInflater mInflater;
-    private int DETAIL_IMG_INDEX;
-    private Context mContext;
-    private int resizeWidth = 0;
-    private List<CalliWork> mWorks;
 
-    public WorksAdapter(Context context, int worksIndex) {
-        this.mContext = context;
-        mInflater = LayoutInflater.from(context);
-        if (worksIndex == Constants.WORKS_NORMAL_INDEX) {
-            DETAIL_IMG_INDEX = Constants.WORKS_IMAGE_INDEX;
-        } else {
-            DETAIL_IMG_INDEX = Constants.FLOURISHING_IMAGE_INDEX;
-        }
+public class WorksAdapter extends BaseQuickAdapter<PinsBean> {
+    private final int resizeWidth;
+    private String mGeneralImgUrl;
+
+    public WorksAdapter(Context context) {
+        super(R.layout.card_works, null);
+        mGeneralImgUrl = context.getString(R.string.format_url_image_general);
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        resizeWidth = (int) ((displayMetrics.widthPixels - 24 * displayMetrics.density) * 0.5);
+        resizeWidth = (int) ((displayMetrics.widthPixels - 24 * displayMetrics.density) * 0.5);//图片宽度为当前屏幕的一半
     }
 
     @Override
-    public WorkHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.card_works, parent, false);
-        return new WorkHolder(view);
-    }
+    protected void convert(BaseViewHolder holder, PinsBean pinsBean) {
+        //图片地址
+        String urlImg = String.format(mGeneralImgUrl, pinsBean.getFile().getKey());
 
-    @Override
-    public void onBindViewHolder(final WorkHolder holder, final int position) {
-        if (mWorks != null && mWorks.size() > 0) {
-            CalliWork calliWork = mWorks.get(position);
-            float mRatio = ((float) calliWork.getWidth()) / ((float) calliWork.getHeight());
-            int resizeHeight = (int) (resizeWidth / mRatio);
-            ViewGroup.LayoutParams params = holder.workImg.getLayoutParams();
-            params.width = resizeWidth;
-            params.height = resizeHeight;
-            holder.workImg.setLayoutParams(params);
-            ImageLoadUtil.loadImageWithPlaceHolders(mContext, holder.workImg,
-                    Constants.IMG_URL_PREFIX + mWorks.get(position).getKey(),
-                    resizeWidth, resizeHeight);
+        float mRatio = ((float) pinsBean.getFile().getWidth()) / ((float) pinsBean.getFile().getHeight());
+        int resizeHeight = (int) (resizeWidth / mRatio);//等比计算图片的高度
+        ViewGroup.LayoutParams params = holder.getView(R.id.card_works_img).getLayoutParams();
+        params.width = resizeWidth;
+        params.height = resizeHeight;
+        holder.getView(R.id.card_works_img).setLayoutParams(params);
+        holder.addOnClickListener(R.id.card_work);
 
-            holder.workImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, ImagePagerActivity.class);
-                    intent.putExtra(Constants.IMAGE_PAGER_INDEX, DETAIL_IMG_INDEX);
-                    intent.putExtra(Constants.IMAGE_POSITION, position);
-                    if (Build.VERSION.SDK_INT >= 21) {
-                        mContext.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext).toBundle());
-                    } else {
-                        mContext.startActivity(intent);
-                    }
-                }
-            });
+        //是否需要显示GIFImageButton
+        if (Utils.checkIsGif(pinsBean.getFile().getType())) {
+            holder.getView(R.id.imgbtn_gif).setVisibility(View.VISIBLE);
         } else {
-            //图片网址信息还没解析完，先加载占位图
-            ImageLoadUtil.loadImage(mContext, holder.workImg, R.drawable.place_holder_d, resizeWidth, resizeWidth);
+            holder.getView(R.id.imgbtn_gif).setVisibility(View.INVISIBLE);
         }
+
+        //加载pin图片
+        ImageLoader.load(mContext, (ImageView) holder.getView(R.id.card_works_img), urlImg, getPlaceHolder(pinsBean, urlImg));
     }
 
-    @Override
-    public int getItemCount() {
-        if (mWorks != null && mWorks.size() > 0) {
-            return mWorks.size();
+    private Drawable getPlaceHolder(PinsBean bean, String url) {
+        ColorDrawable drawable;
+        if (bean.getFile().getColors() != null && bean.getFile().getColors().size() > 0) {
+            int color = bean.getFile().getColors().get(0).getColor();
+            if (color == 0) {
+                //黑色
+                drawable = new ColorDrawable(ContextCompat.getColor(mContext, R.color.grey_1000));
+            } else {
+                String hexColor = Integer.toHexString(color);
+                if (hexColor.length() == 4) {
+                    hexColor = "00" + hexColor;
+                }
+                if (hexColor.length() == 5) {
+                    hexColor = "0" + hexColor;
+                }
+                drawable = new ColorDrawable(Color.parseColor("#" + hexColor));
+            }
+        } else {
+            drawable = new ColorDrawable(ContextCompat.getColor(mContext, R.color.grey_a700));
         }
-        return 10;
-    }
-
-    static class WorkHolder extends RecyclerView.ViewHolder {
-        private ImageView workImg;
-
-        public WorkHolder(View itemView) {
-            super(itemView);
-            workImg = (ImageView) itemView.findViewById(R.id.card_works_img);
-        }
-    }
-
-    public void setWorkList(List<CalliWork> list) {
-        if (mWorks != null) {
-            this.mWorks.clear();
-        }
-        this.mWorks = list;
-        notifyDataSetChanged();
+        return drawable;
     }
 
 }

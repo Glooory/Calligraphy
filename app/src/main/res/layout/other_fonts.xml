@@ -35,6 +35,7 @@
                     android:textColor="@color/colorPrimaryText" />
 
                 <ImageView
+                    android:id="@+id/image_view_font_op"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -70,6 +71,7 @@
                     android:textColor="@color/colorPrimaryText" />
 
                 <ImageView
+                    android:id="@+id/image_view_font_ss"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -105,6 +107,7 @@
                     android:textColor="@color/colorPrimaryText" />
 
                 <ImageView
+                    android:id="@+id/image_view_font_bp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -141,6 +144,7 @@
                     android:textColor="@color/colorPrimaryText" />
 
                 <ImageView
+                    android:id="@+id/image_view_font_gothic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"

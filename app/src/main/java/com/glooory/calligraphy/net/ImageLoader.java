@@ -22,6 +22,13 @@ public class ImageLoader {
                 .into(imageView);
     }
 
+    public static void load(Context context, ImageView imageView, int resId) {
+        Glide.with(context)
+                .load(resId)
+                .crossFade()
+                .into(imageView);
+    }
+
     public static void load(Context context, ImageView imageView, String url, Drawable placeHolder) {
         Glide.with(context)
                 .load(url)

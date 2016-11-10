@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:fitsSystemWindows="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--这里有个坑，本来最开始是用ImageView的    https://github.com/chrisbanes/PhotoView/issues/357-->
+        <uk.co.senab.photoview.PhotoView
+            android:id="@+id/img_image_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:scaleType="fitCenter"
+            android:transitionName="@string/transition_name" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_image_detail"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="top"
+            android:background="@color/transparent"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

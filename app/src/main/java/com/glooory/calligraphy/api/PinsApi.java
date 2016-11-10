@@ -1,5 +1,6 @@
 package com.glooory.calligraphy.api;
 
+import com.glooory.calligraphy.entity.PinInfoBean;
 import com.glooory.calligraphy.entity.PinsListBean;
 
 import retrofit2.http.GET;
@@ -23,5 +24,10 @@ public interface PinsApi {
     Observable<PinsListBean> getPinsListMax(@Path("boardId") String boardId,
                                             @Query("max") String max,
                                             @Query("limit") int limit);
+
+    //请求单张图片
+    //http://api.huaban.com/pins/786135762
+    @GET("pins/{pinId}")
+    Observable<PinInfoBean> getPinInfo(@Path("pinId") String pinId);
 
 }

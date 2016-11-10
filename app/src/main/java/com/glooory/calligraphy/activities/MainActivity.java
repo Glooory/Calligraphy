@@ -2,10 +2,8 @@ package com.glooory.calligraphy.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.GravityCompat;
@@ -15,23 +13,41 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
+import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.utils.NetworkUtil;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
-
-    private static final String DECLARATION = "declaration";
+    @BindView(R.id.italy_card_cover)
+    ImageView mItalyImageView;
+    @BindView(R.id.italic_cover_text)
+    TextView mItalicCoverTextView;
+    @BindView(R.id.roundhand_card)
+    ImageView mRoundhandImageView;
+    @BindView(R.id.cards_container_1)
+    LinearLayout mCardsContainerLL;
+    @BindView(R.id.handprint_card_cover)
+    ImageView mHandprintImageView;
+    @BindView(R.id.copperplate_card_cover)
+    ImageView mCopperplateImageView;
+    @BindView(R.id.nav_view)
+    NavigationView mNavView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
-    private boolean showDeclaration;
     private CardView roundhandCard;
     private CardView italyCard;
     private CardView handprintedCard;
@@ -42,18 +58,10 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ButterKnife.bind(this);
         setupToolbar();
         setupDrawer();
         initViews();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        showDeclaration = sharedPreferences.getBoolean(DECLARATION, true);
-        if (showDeclaration) {
-            showDeclarationDialog();
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-            editor.putBoolean(DECLARATION, false);
-            editor.commit();
-        }
     }
 
     private void setupToolbar() {
@@ -85,26 +93,12 @@ public class MainActivity extends BaseActivity
         copperplateCard.setOnClickListener(this);
     }
 
-    private void showDeclarationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("声明")
-                .setMessage(getString(R.string.declaration))
-                .setCancelable(false)
-                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-        builder.create().show();
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
-            }  else {
+            } else {
                 if (System.currentTimeMillis() - exitTime > 2000) {
                     Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
                     exitTime = System.currentTimeMillis();
@@ -119,28 +113,6 @@ public class MainActivity extends BaseActivity
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_declaration) {
-            showDeclarationDialog();
-        }
-        
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -162,36 +134,13 @@ public class MainActivity extends BaseActivity
             intentFlouri.putExtra(Constants.FRAGMENT_INDEX, Constants.FLOURIFRAG);
             lanuchActivity(intentFlouri);
         } else if (id == R.id.nav_works) {
-            SharedPreferences spf = PreferenceManager.getDefaultSharedPreferences(this);
-            boolean isFirstTime = spf.getBoolean(WorksActivity.FIRST_TIME, true);
-            if (isFirstTime && !NetworkUtil.isOnline(this)) {
+            if (!NetworkUtil.isOnline(getApplicationContext())) {
                 Toast.makeText(this, "网络不可用，请检查后重试。", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-            if (isFirstTime && NetworkUtil.isMobileData(this)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("你正在使用的是数据流量，后面需要加载的图片较多，确定继续？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startWorksActivity();
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
-                            }
-                        })
-                        .setCancelable(false);
-                builder.create().show();
             } else {
                 startWorksActivity();
             }
-
+            return true;
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -233,10 +182,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void startWorksActivity() {
-//        Intent intentMoreWorks = new Intent(MainActivity.this, WorksActivity.class);
-//        intentMoreWorks.putExtra(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
-//        lanuchActivity(intentMoreWorks);
-        WorksRCActivity.launch(MainActivity.this);
+        WorksActivity.launch(MainActivity.this);
     }
 
     private void lanuchActivity(Intent intent) {
