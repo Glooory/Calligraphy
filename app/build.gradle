@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "com.glooory.calligraphy"
+        applicationId "com.glooory.fragment_calligraphy"
         minSdkVersion 16
         targetSdkVersion 24
         versionCode 102
@@ -53,5 +53,4 @@ dependencies {
 
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.3.0'
     compile 'com.github.chrisbanes:PhotoView:1.3.1'
-    compile 'me.zhanghai.android.materialprogressbar:library:1.3.0'
 }

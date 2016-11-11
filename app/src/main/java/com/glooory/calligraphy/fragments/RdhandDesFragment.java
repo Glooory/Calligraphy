@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Glooo on 2016/5/12 0012.
+ * Created by Glooory on 2016/5/12 0012.
  */
 public class RdhandDesFragment extends BaseFragment {
     @BindView(R.id.image_view_roundhand_des)
@@ -22,10 +22,14 @@ public class RdhandDesFragment extends BaseFragment {
     @BindView(R.id.roundhand_des_image_card)
     CardView mRoundhandDes;
 
+    public static RdhandDesFragment newInstance() {
+        return new RdhandDesFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.roundhand_des, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_roundhand_des, container, false);
         ButterKnife.bind(this, rootView);
         mRoundhandDes.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Glooo on 2016/5/12 0012.
+ * Created by Glooory on 2016/5/12 0012.
  */
 public class ItalicDesFragment extends BaseFragment {
     @BindView(R.id.italic_des_image)
@@ -22,10 +22,14 @@ public class ItalicDesFragment extends BaseFragment {
     @BindView(R.id.italic_des_image_card)
     CardView mItalicDesCard;
 
+    public static ItalicDesFragment newInstance() {
+        return new ItalicDesFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.italic_des, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_italic_des, container, false);
         ButterKnife.bind(this, rootView);
         mItalicDesCard.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,50 +1,67 @@
 package com.glooory.calligraphy.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.fragments.CalligraphyFragment;
 import com.glooory.calligraphy.fragments.FlourishingFragment;
 import com.glooory.calligraphy.fragments.OtherfontsFragment;
-import com.glooory.calligraphy.utils.NetworkUtil;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
- * Created by Glooo on 2016/5/13 0013.
+ * Created by Glooory on 2016/5/13 0013.
  */
 public class UniversalActivity extends BaseActivity {
-    public static final String STATE_FRAG = "state_frag";
-    private Toolbar mToolbar;
+    public static final String CONTENT_TYPE_INDEX = "content_type";
+    public static final int CONTENT_CALLIGRAPHY = 11;
+    public static final int CONTENT_OTHER_FONTS = 12;
+    public static final int CONTENT_FLOURISHING = 13;
+    private static final String STATE_FRAG = "state_frag";
+
+    @BindView(R.id.toolbar_universal)
+    Toolbar mToolbar;
+
     Fragment fragment = null;
+
+    public static void launch(Activity activity, int contentTypeIndex) {
+        Intent intent = new Intent(activity, UniversalActivity.class);
+        intent.putExtra(CONTENT_TYPE_INDEX, contentTypeIndex);
+        if (Build.VERSION.SDK_INT >= 21) {
+            activity.startActivity(intent,
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle());
+        } else {
+            activity.startActivity(intent);
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_universal);
-
+        ButterKnife.bind(this);
+        setupToolbar();
         if (savedInstanceState != null) {
             fragment = getFragment(savedInstanceState.getInt(STATE_FRAG));
         } else {
-            int type = getIntent().getIntExtra(Constants.FRAGMENT_INDEX, Constants.CALLIFRAG);
+            int type = getIntent().getIntExtra(CONTENT_TYPE_INDEX, CONTENT_CALLIGRAPHY);
             fragment = getFragment(type);
         }
-
-        setupToolbar();
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.universal_content, fragment).commit();
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.container_universal, fragment).commit();
     }
 
     private void setupToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.universal_app_bar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -52,17 +69,17 @@ public class UniversalActivity extends BaseActivity {
 
     private Fragment getFragment(int type) {
         switch (type) {
-            case Constants.CALLIFRAG:
-                fragment = new CalligraphyFragment();
-                this.setTitle("英文书法");
+            case CONTENT_CALLIGRAPHY:
+                fragment = CalligraphyFragment.newInstance();
+                getSupportActionBar().setTitle(R.string.calligraphy);
                 return fragment;
-            case Constants.OTHERFRAG:
-                fragment = new OtherfontsFragment();
-                this.setTitle("其他字体");
+            case CONTENT_OTHER_FONTS:
+                fragment = OtherfontsFragment.newInstance();
+                getSupportActionBar().setTitle(R.string.other_font);
                 return fragment;
-            case Constants.FLOURIFRAG:
-                this.setTitle("装饰花边");
-                fragment = new FlourishingFragment();
+            case CONTENT_FLOURISHING:
+                getSupportActionBar().setTitle(R.string.flourishing);
+                fragment = FlourishingFragment.newInstance();
                 return fragment;
         }
         return fragment;
@@ -71,13 +88,13 @@ public class UniversalActivity extends BaseActivity {
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        int type = 100;
+        int type = 0;
         if (fragment instanceof CalligraphyFragment) {
-            type = 0;
+            type = CONTENT_CALLIGRAPHY;
         } else if (fragment instanceof OtherfontsFragment) {
-            type = 1;
+            type = CONTENT_OTHER_FONTS;
         } else if (fragment instanceof FlourishingFragment) {
-            type = 2;
+            type = CONTENT_FLOURISHING;
         }
         outState.putInt(STATE_FRAG, type);
     }
@@ -94,11 +111,8 @@ public class UniversalActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_flourishing_more) {
-            if (!NetworkUtil.isOnline(this)) {
-                Toast.makeText(this, "网络不可用，请检查后重试。", Toast.LENGTH_SHORT).show();
-                return true;
-            }
             WorksActivity.launch(this);
+            return true;
         } else if (item.getItemId() == android.R.id.home) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 finishAfterTransition();

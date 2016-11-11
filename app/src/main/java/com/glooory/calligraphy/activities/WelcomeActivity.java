@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.glooory.calligraphy.R;
 
 /**
- * Created by Glooo on 2016/7/17 0017.
+ * Created by Glooory on 2016/7/17 0017.
  */
 public class WelcomeActivity extends AppCompatActivity {
     private ImageView mWelcomeImg;

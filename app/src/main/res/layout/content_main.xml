@@ -23,7 +23,6 @@
             android:orientation="horizontal">
 
             <include
-                android:id="@+id/card_italy"
                 layout="@layout/card_italy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,7 +30,6 @@
                 android:layout_weight="1" />
 
             <include
-                android:id="@+id/card_roundhand"
                 layout="@layout/card_roundhand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +45,6 @@
             android:orientation="horizontal">
 
             <include
-                android:id="@+id/card_handprinted"
                 layout="@layout/card_handprinted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +52,6 @@
                 android:layout_weight="1" />
 
             <include
-                android:id="@+id/card_copperplate"
                 layout="@layout/card_copperplate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

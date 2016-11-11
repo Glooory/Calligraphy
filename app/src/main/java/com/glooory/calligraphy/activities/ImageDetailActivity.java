@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
- * Created by Glooo on 2016/5/16 0016.
+ * Created by Glooory on 2016/5/16 0016.
  */
 public class ImageDetailActivity extends BaseActivity {
     private static final String KEY_IMG_RES_ID = "res_id";
@@ -72,10 +72,10 @@ public class ImageDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_image_detail);
         ButterKnife.bind(this);
         mImgType = getIntent().getIntExtra(IMG_TYPE_INDEX, IMG_TYPE_RES);
+        mAttacher = new PhotoViewAttacher(mImageView);
         initView();
         initData();
         loadImage();
-        mAttacher = new PhotoViewAttacher(mImageView);
     }
 
     private void initView() {
@@ -127,9 +127,5 @@ public class ImageDetailActivity extends BaseActivity {
 
     private void actionDownload() {
 
-    }
-
-    public void finishThis() {
-        finishSelf();
     }
 }

@@ -13,9 +13,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Glooo on 2016/5/10 0010.
+ * Created by Glooory on 2016/5/10 0010.
  */
-public class ItalicFragment extends BaseFragment implements View.OnClickListener {
+public class ItalicTipsFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.italic_tip_3_image)
     ImageView mTipThreeImage;
     @BindView(R.id.italic_tip_4_a_image)
@@ -29,10 +29,14 @@ public class ItalicFragment extends BaseFragment implements View.OnClickListener
     @BindView(R.id.italic_tip_4_e_image)
     ImageView mTipFourEImage;
 
+    public static ItalicTipsFragment newInstance() {
+        return new ItalicTipsFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.italic_tips, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_italic_tips, container, false);
         ButterKnife.bind(this, rootView);
         mTipThreeImage.setOnClickListener(this);
         mTipFourAImage.setOnClickListener(this);

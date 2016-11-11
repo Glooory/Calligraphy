@@ -13,9 +13,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Glooo on 2016/5/11 0011.
+ * Created by Glooory on 2016/5/11 0011.
  */
-public class HdprintedFragment extends BaseFragment implements View.OnClickListener {
+public class HdprintedTipsFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.handprinted_tip_1_a_image)
     ImageView mTipOneAImage;
     @BindView(R.id.handprinted_tip_1_b_image)
@@ -31,10 +31,14 @@ public class HdprintedFragment extends BaseFragment implements View.OnClickListe
     @BindView(R.id.handprinted_tip_3_b_image)
     ImageView mTipThreeBImage;
 
+    public static HdprintedTipsFragment newInstance() {
+        return new HdprintedTipsFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.handprinted_tips, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_handprinted_tips, container, false);
         ButterKnife.bind(this, rootView);
         mTipOneAImage.setOnClickListener(this);
         mTipOneBImage.setOnClickListener(this);

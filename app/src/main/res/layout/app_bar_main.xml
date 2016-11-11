@@ -13,8 +13,8 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
+            android:id="@+id/toolbar_main"
+            layout="@layout/view_toolbar"/>
 
     </android.support.design.widget.AppBarLayout>
 

@@ -5,72 +5,48 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.activities.ImagePagerActivity;
+import com.glooory.calligraphy.activities.FontActivity;
 import com.glooory.calligraphy.constants.Constants;
-import com.glooory.calligraphy.widgets.PinchImageView;
-import com.glooory.calligraphy.widgets.PinchImageViewPager;
+import com.glooory.calligraphy.net.ImageLoader;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
- * Created by Glooo on 2016/5/16 0016.
+ * Created by Glooory on 2016/5/16 0016.
  */
 public class ImagePagerAdapter extends PagerAdapter {
-
-    private int mIndex;
-    private int[] MY_CHAR_IDS = new int[]{};
-    private boolean isFromUrl;
+    private int mFontType;
+    private int[] mCharResIds;
     private LayoutInflater inflater;
-    private PinchImageViewPager pager;
     private Context mContext;
 
-    public ImagePagerAdapter(Context context, int index, PinchImageViewPager pager) {
+    public ImagePagerAdapter(Context context, int fontType) {
         this.mContext = context;
-        this.pager = pager;
-        this.mIndex = index;
+        this.mFontType = fontType;
         inflater = LayoutInflater.from(context);
-
-        init();
+        initData();
     }
 
-    private void init() {
-        switch (mIndex) {
-            case Constants.WORKS_IMAGE_INDEX:
-                isFromUrl = true;
+    private void initData() {
+        switch (mFontType) {
+            case FontActivity.FONT_ITALIC:
+                mCharResIds = Constants.ITALIC_CHAR_IDS;
                 break;
-            case Constants.FLOURISHING_IMAGE_INDEX:
-                isFromUrl = true;
+            case FontActivity.FONT_ROUND_HAND:
+                mCharResIds = Constants.ROUNDHAND_CHAR_IDS;
                 break;
-            case Constants.ITALIC_IMAGE_INDEX:
-                MY_CHAR_IDS = Constants.ITALIC_CHAR_IDS;
-                isFromUrl = false;
-                break;
-            case Constants.ROUNDHAND_IMAGE_INDEX:
-                MY_CHAR_IDS = Constants.ROUNDHAND_CHAR_IDS;
-                isFromUrl = false;
-                break;
-            case Constants.HANDPRINTED_IMAGE_INDEX:
-                MY_CHAR_IDS = Constants.HANDPRINTED_CHAR_IDS;
-                isFromUrl = false;
+            case FontActivity.FONT_HAND_PRINTED:
+                mCharResIds = Constants.HANDPRINTED_CHAR_IDS;
                 break;
         }
     }
 
     @Override
     public int getCount() {
-        switch (mIndex) {
-            case Constants.WORKS_IMAGE_INDEX:
-//                return WorksFragment.mWorks.size();
-            case Constants.FLOURISHING_IMAGE_INDEX:
-//                return WorksFragment.mWorks.size();
-            case Constants.ITALIC_IMAGE_INDEX:
-                return Constants.ITALIC_CHAR_IDS.length;
-            case Constants.ROUNDHAND_IMAGE_INDEX:
-                return Constants.ROUNDHAND_CHAR_IDS.length;
-            case Constants.HANDPRINTED_IMAGE_INDEX:
-                return Constants.HANDPRINTED_CHAR_IDS.length;
-        }
-        return 0;
+        return mCharResIds.length;
     }
 
     @Override
@@ -85,37 +61,10 @@ public class ImagePagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        PinchImageView imageView = (PinchImageView) inflater.inflate(R.layout.item_viewpager, container, false);
-
-//        if (isFromUrl) {
-//            ImageLoadUtil.loadImage(mContext, imageView,
-//                    Constants.IMG_URL_PREFIX + WorksFragment.mWorks.get(position).getKey());
-//        } else {
-//            imageView.setImageResource(MY_CHAR_IDS[position]);
-//        }
-
+        ImageView imageView = (ImageView) inflater.inflate(R.layout.item_viewpager, container, false);
+        ImageLoader.load(mContext, imageView, mCharResIds[position]);
+        PhotoViewAttacher attacher = new PhotoViewAttacher(imageView);
         container.addView(imageView);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((ImagePagerActivity) mContext).finishThis();
-            }
-        });
-
         return imageView;
     }
-
-    @Override
-    public void setPrimaryItem(ViewGroup container, int position, Object object) {
-        PinchImageView imageView = (PinchImageView) object;
-//        if (isFromUrl) {
-//            ImageLoadUtil.loadImage(mContext, imageView,
-//                    Constants.IMG_URL_PREFIX + WorksFragment.mWorks.get(position).getKey());
-//        } else {
-//            imageView.setImageResource(MY_CHAR_IDS[position]);
-//        }
-        pager.setMainPinchImageView(imageView);
-    }
-
 }

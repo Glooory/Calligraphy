@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import com.glooory.calligraphy.activities.ImageDetailActivity;
 
 /**
- * Created by Glooo on 2016/7/19 0019.
+ * Created by Glooory on 2016/7/19 0019.
  */
 public class BaseFragment extends Fragment {
 

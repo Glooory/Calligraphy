@@ -37,7 +37,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Glooory on 2016/11/5 0005 17:20.
  */
 
-public class WorksRCFragment extends Fragment implements BaseQuickAdapter.RequestLoadMoreListener {
+public class WorksFragment extends Fragment implements BaseQuickAdapter.RequestLoadMoreListener {
     private CompositeSubscription mCompositeSubscription;
     private String mBoardId;
     private final int PAGESIZE = 20;
@@ -49,10 +49,10 @@ public class WorksRCFragment extends Fragment implements BaseQuickAdapter.Reques
     private Context mContext;
     private FragmentRefreshListener mListener;
 
-    public static WorksRCFragment newInstanse(int worksTypeIndex) {
+    public static WorksFragment newInstanse(int worksTypeIndex) {
         Bundle args = new Bundle();
         args.putInt(Constants.WORKS_INDEX, worksTypeIndex);
-        WorksRCFragment fragment = new WorksRCFragment();
+        WorksFragment fragment = new WorksFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,7 +78,7 @@ public class WorksRCFragment extends Fragment implements BaseQuickAdapter.Reques
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.view_recycler_view, container, false);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         initAdapter();
         mRecyclerView.setAdapter(mAdapter);
@@ -101,7 +101,6 @@ public class WorksRCFragment extends Fragment implements BaseQuickAdapter.Reques
         mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
             @Override
             public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                // TODO: 2016/11/5 0005 launch image detail activity
                 ImageDetailActivity.launch(getActivity(),
                         (ImageView) view.findViewById(R.id.card_works_img),
                         mAdapter.getItem(i).getFile().getKey());

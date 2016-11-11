@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,14 +8,12 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:padding="8dp">
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             card_view:cardElevation="2dp"
             card_view:cardCornerRadius="4dp"
             card_view:cardUseCompatPadding="true">
@@ -26,32 +25,31 @@
                 android:lineSpacingMultiplier="1.3"
                 android:textColor="@color/colorPrimaryText"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:text="@string/handprinted_spe_des"/>
+                android:text="@string/roundhand_spe_des"/>
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/handprinted_des_image_card"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/roundhand_des_image_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             card_view:cardElevation="2dp"
             card_view:cardCornerRadius="4dp"
             card_view:cardUseCompatPadding="true">
 
             <ImageView
-                android:id="@+id/image_view_handprinted_des"
+                android:id="@+id/image_view_roundhand_des"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
-                android:src="@drawable/handprinted_header_480" />
+                android:src="@drawable/roundhand_header_ver_480" />
 
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
-
 </ScrollView>

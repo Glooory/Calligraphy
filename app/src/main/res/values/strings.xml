@@ -14,19 +14,15 @@
     <string name="font_italic">意大利体</string>
     <string name="font_round_hand">圆体</string>
     <string name="font_hand_printed">手写印刷体</string>
+    <string name="font_copperplate">铜板印刷体</string>
 
     <string name="calligraphy">英文书法</string>
     <string name="other_font">其他字体</string>
     <string name="flourishing">装饰加花</string>
     <string name="works">作品欣赏</string>
-
     <string name="alphabet">字母表</string>
     <string name="tips">书写技巧</string>
 
-    <string-array name="works_title">
-        <item>书法作品</item>
-        <item>加花作品</item>
-    </string-array>
 
     <string name="roundhand_spe_des">圆体字母由连续的曲线组成，显得十分圆润、流畅，书写能表现出抒情舞蹈的姿态，给人以飘逸柔情的美感。</string>
     <string name="roundhand_alphabet">圆体字母表</string>

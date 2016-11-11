@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Glooo on 2016/5/12 0012.
+ * Created by Glooory on 2016/5/12 0012.
  */
 public class HdprintedDesFragment extends BaseFragment {
     @BindView(R.id.image_view_handprinted_des)
@@ -22,10 +22,14 @@ public class HdprintedDesFragment extends BaseFragment {
     @BindView(R.id.handprinted_des_image_card)
     CardView mDesCard;
 
+    public static HdprintedDesFragment newInstance() {
+        return new HdprintedDesFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.handprinted_des, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_handprinted_des, container, false);
         ButterKnife.bind(this, rootView);
         mDesCard.setOnClickListener(new View.OnClickListener() {
             @Override

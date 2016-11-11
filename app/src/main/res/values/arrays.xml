@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="tab_titles">
+    <string-array name="fonts">
+        <item>@string/font_italic</item>
+        <item>@string/font_round_hand</item>
+        <item>@string/font_hand_printed</item>
+        <item>@string/font_copperplate</item>
+    </string-array>
+
+    <string-array name="font_content_titles">
         <item>简介</item>
         <item>字母表</item>
         <item>书写技巧</item>
     </string-array>
 
-    <string-array name="spiner_item">
+    <string-array name="works_title">
         <item>书法作品</item>
         <item>加花作品</item>
     </string-array>

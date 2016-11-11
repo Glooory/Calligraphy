@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Glooo on 2016/5/13 0013.
+ * Created by Glooory on 2016/5/13 0013.
  */
 public class OtherfontsFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.image_view_font_op)
@@ -34,10 +34,14 @@ public class OtherfontsFragment extends BaseFragment implements View.OnClickList
     @BindView(R.id.card_gothic)
     CardView mCardGothic;
 
+    public static OtherfontsFragment newInstance() {
+        return new OtherfontsFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.other_fonts, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_other_fonts, container, false);
         ButterKnife.bind(this, rootView);
         mCardOp.setOnClickListener(this);
         mCardSs.setOnClickListener(this);

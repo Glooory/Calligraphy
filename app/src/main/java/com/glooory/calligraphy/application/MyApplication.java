@@ -8,7 +8,7 @@ import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 /**
- * Created by Glooo on 2016/5/15 0015.
+ * Created by Glooory on 2016/5/15 0015.
  */
 public class MyApplication extends Application {
 

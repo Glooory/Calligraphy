@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Glooo on 2016/5/13 0013.
+ * Created by Glooory on 2016/5/13 0013.
  */
 public class FlourishingFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.flourishing_image_a)
@@ -21,10 +21,14 @@ public class FlourishingFragment extends BaseFragment implements View.OnClickLis
     @BindView(R.id.flourishing_image_b)
     ImageView mFlourishingImageB;
 
+    public static FlourishingFragment newInstance() {
+        return new FlourishingFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.flourishing, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_flourishing, container, false);
         ButterKnife.bind(this, rootView);
         mFlourishingImageA.setOnClickListener(this);
         mFlourishingImageB.setOnClickListener(this);

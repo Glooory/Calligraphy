@@ -6,16 +6,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="16dp"
         android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp">
+        android:padding="8dp">
 
         <TextView
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:lineSpacingMultiplier="1.3"
             android:text="@string/flourishing_des"
             android:textColor="@color/colorPrimaryText" />
@@ -24,7 +21,7 @@
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:lineSpacingMultiplier="1.3"
             android:text="@string/fl_point"
             android:textColor="@color/colorPrimaryText" />
@@ -44,7 +41,7 @@
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:lineSpacingMultiplier="1.3"
             android:text="@string/fl_plain"
             android:textColor="@color/colorPrimaryText" />
@@ -59,7 +56,6 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:scaleType="centerCrop"
             android:src="@drawable/flourishing_b_orignal" />
-
 
     </LinearLayout>
 

@@ -13,14 +13,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.callbacks.FragmentRefreshListener;
 import com.glooory.calligraphy.constants.Constants;
-import com.glooory.calligraphy.fragments.WorksRCFragment;
+import com.glooory.calligraphy.fragments.WorksFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +28,7 @@ import butterknife.ButterKnife;
  * Created by Glooory on 2016/11/5 0005 15:20.
  */
 
-public class WorksActivity extends AppCompatActivity implements FragmentRefreshListener,
+public class WorksActivity extends BaseActivity implements FragmentRefreshListener,
         SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.toolbar_works)
@@ -43,8 +42,8 @@ public class WorksActivity extends AppCompatActivity implements FragmentRefreshL
     @BindView(R.id.appbar_layout_works)
     AppBarLayout mAppbar;
 
-    private WorksRCFragment mCalliFragment;
-    private WorksRCFragment mFlourishingFragment;
+    private WorksFragment mCalliFragment;
+    private WorksFragment mFlourishingFragment;
     private String[] mTabTitles = new String[]{};
     private WorksPagerAdapter mAdapter;
 
@@ -62,7 +61,7 @@ public class WorksActivity extends AppCompatActivity implements FragmentRefreshL
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_works_rc);
+        setContentView(R.layout.activity_works);
         ButterKnife.bind(this);
         mTabTitles = getResources().getStringArray(R.array.works_title);
         initView();
@@ -161,9 +160,9 @@ public class WorksActivity extends AppCompatActivity implements FragmentRefreshL
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return WorksRCFragment.newInstanse(Constants.WORKS_NORMAL_INDEX);
+                    return WorksFragment.newInstanse(Constants.WORKS_NORMAL_INDEX);
                 case 1:
-                    return WorksRCFragment.newInstanse(Constants.WORKS_FLOURISHING_INDEX);
+                    return WorksFragment.newInstanse(Constants.WORKS_FLOURISHING_INDEX);
             }
             return null;
         }
@@ -173,10 +172,10 @@ public class WorksActivity extends AppCompatActivity implements FragmentRefreshL
             Fragment createdFragment = (Fragment) super.instantiateItem(container, position);
             switch (position) {
                 case 0:
-                    mCalliFragment = (WorksRCFragment) createdFragment;
+                    mCalliFragment = (WorksFragment) createdFragment;
                     break;
                 case 1:
-                    mFlourishingFragment = (WorksRCFragment) createdFragment;
+                    mFlourishingFragment = (WorksFragment) createdFragment;
                     break;
             }
             return createdFragment;

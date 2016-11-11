@@ -2,43 +2,42 @@ package com.glooory.calligraphy.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.LruCache;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.utils.AnimationUtil;
+import com.glooory.calligraphy.activities.FontActivity;
 import com.glooory.calligraphy.activities.ImagePagerActivity;
+import com.glooory.calligraphy.constants.Constants;
+import com.glooory.calligraphy.net.ImageLoader;
+import com.glooory.calligraphy.utils.AnimationUtil;
 
 /**
- * Created by Glooo on 2016/6/15 0015.
+ * Created by Glooory on 2016/6/15 0015.
  */
 public class CharAdapter extends RecyclerView.Adapter<CharAdapter.CharHolder> {
     private LayoutInflater mInflater;
     private int[] charImgIds = new int[]{};
     private int mPrePosition = 0;
     private Context mContext;
-    private int displayActivityIndex = 0;
-    private LruCache<String, Drawable> mMemoryCache;
-    private Resources mResources;
+    private int mItemImgWidth;
+    private float mImgRatio;
+    private int mFontType;
 
     public CharAdapter(Context context, int fontType) {
-        mContext = context;
+        this.mContext = context;
+        this.mFontType = fontType;
         mInflater = LayoutInflater.from(context);
         initCharImgIds(fontType);
-        int maxMemory = (int) Runtime.getRuntime().maxMemory();
-        int cacheSize = maxMemory / 8;
-        mMemoryCache = new LruCache<>(cacheSize);
-        mResources = context.getResources();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        mItemImgWidth = (int) (displayMetrics.widthPixels - 16 * displayMetrics.density);//图片显示的宽度
     }
 
     /**
@@ -46,17 +45,17 @@ public class CharAdapter extends RecyclerView.Adapter<CharAdapter.CharHolder> {
      */
     private void initCharImgIds(int fontType) {
         switch (fontType) {
-            case Constants.FONT_ITALIC:
+            case FontActivity.FONT_ITALIC:
                 charImgIds = Constants.ITALIC_CHAR_IDS;
-                displayActivityIndex = Constants.ITALIC_IMAGE_INDEX;
+                mImgRatio = Constants.RATIO_ITALIC;
                 break;
-            case Constants.FONT_ROUNDHAND:
+            case FontActivity.FONT_ROUND_HAND:
                 charImgIds = Constants.ROUNDHAND_CHAR_IDS;
-                displayActivityIndex = Constants.ROUNDHAND_IMAGE_INDEX;
+                mImgRatio = Constants.RATIO_ROUND_HAND;
                 break;
-            case Constants.FONT_HANDPRINTED:
+            case FontActivity.FONT_HAND_PRINTED:
                 charImgIds = Constants.HANDPRINTED_CHAR_IDS;
-                displayActivityIndex = Constants.HANDPRINTED_IMAGE_INDEX;
+                mImgRatio = Constants.RATIO_HAND_PRINTED;
                 break;
         }
     }
@@ -69,36 +68,22 @@ public class CharAdapter extends RecyclerView.Adapter<CharAdapter.CharHolder> {
     }
 
     @Override
-    public void onBindViewHolder(CharHolder holder, final int position) {
-
-        Drawable charImg = mMemoryCache.get(String.valueOf(charImgIds[position]));
-        if (charImg != null) {
-            holder.charImage.setImageDrawable(charImg);
-        } else {
-            holder.charImage.setImageResource(charImgIds[position]);
-        }
-
-        mMemoryCache.put(String.valueOf(charImgIds[position]), mResources.getDrawable(charImgIds[position]));
-
+    public void onBindViewHolder(final CharHolder holder, final int position) {
+        ViewGroup.LayoutParams params = holder.charImage.getLayoutParams();
+        params.width = mItemImgWidth;
+        params.height = (int) (mItemImgWidth * mImgRatio);
+        holder.charImage.setLayoutParams(params);
+        ImageLoader.load(mContext, holder.charImage, charImgIds[position]);
         if (position > mPrePosition) {
             AnimationUtil.animateSunblind(holder, true);
         } else {
             AnimationUtil.animateSunblind(holder, false);
         }
-
         mPrePosition = position;
-
         holder.charImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ImagePagerActivity.class);
-                intent.putExtra(Constants.IMAGE_PAGER_INDEX, displayActivityIndex);
-                intent.putExtra(Constants.IMAGE_POSITION, position);
-                if (Build.VERSION.SDK_INT >= 21) {
-                    ((Activity)mContext).startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext).toBundle());
-                } else {
-                    ((Activity)mContext).startActivity(intent);
-                }
+                ImagePagerActivity.launch((Activity) mContext, mFontType, position);
             }
         });
     }
@@ -114,12 +99,6 @@ public class CharAdapter extends RecyclerView.Adapter<CharAdapter.CharHolder> {
         public CharHolder(View itemView) {
             super(itemView);
             charImage = (ImageView) itemView.findViewById(R.id.card_char_image);
-        }
-    }
-
-    public void clearMemoryCache() {
-        if (mMemoryCache != null) {
-            mMemoryCache.evictAll();
         }
     }
 }
