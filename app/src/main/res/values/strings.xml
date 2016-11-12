@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Calligraphy</string>
+    <string name="app_name">英文书法简介</string>
     
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -20,6 +20,7 @@
     <string name="other_font">其他字体</string>
     <string name="flourishing">装饰加花</string>
     <string name="works">作品欣赏</string>
+    <string name="nav_about">关于</string>
     <string name="alphabet">字母表</string>
     <string name="tips">书写技巧</string>
 
@@ -65,6 +66,18 @@
     <string name="bp">Business Penmanship</string>
     <string name="gothic">Gothic</string>
 
-    <string name="declaration">本软件内容参考《英文书法范典》（闵志平、朱淑贤编著）一书及百度圆体英文吧，纯属个人爱好使用，如果喜欢请购买正版书籍。</string>
+    <string name="declaration">本软件所有内容均来自互联网，仅供学习交流使用，如果涉及侵权，请联系我 glooorypu@gmail.com 及时删除。</string>
     <string name="no_more_data">没有更多了</string>
+
+    <string name="check_version">检查更新</string>
+    <string name="is_newest_version">已是最新版本</string>
+    <string name="new_version_available">更新</string>
+    <string name="new_version_des">发现新版本：%1$s，是否更新？\n本次更新内容：\n%2$s\n更新包大小：%3$s</string>
+    <string name="download_new_version">下载更新</string>
+    <string name="cancle">取消</string>
+    <string name="version_format">当前版本：%s</string>
+    <string name="app_file_name">yingwen_shufa_jianjie_%s.apk</string>
+    <string name="external_permission_tip">友情提示</string>
+    <string name="external_permission_des">没有访问手机存储空间权限将无法下载更新，请把访问手机存储空间权限赐予我吧！</string>
+    <string name="external_permission_failed">获取访问手机存储空间权限失败，无法下载更新！</string>
 </resources>

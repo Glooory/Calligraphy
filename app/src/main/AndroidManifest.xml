@@ -9,7 +9,7 @@
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/logo_orignal"
+        android:icon="@mipmap/icon_calligraphy"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
@@ -60,6 +60,15 @@
         <activity android:name=".activities.WorksActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <service android:name=".service.UpdateService" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5826cbc9a40fa37b00001ae9"></meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
     </application>
 
 </manifest>

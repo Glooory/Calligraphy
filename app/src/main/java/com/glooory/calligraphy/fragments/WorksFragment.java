@@ -3,7 +3,6 @@ package com.glooory.calligraphy.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -31,14 +30,12 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Glooory on 2016/11/5 0005 17:20.
  */
 
-public class WorksFragment extends Fragment implements BaseQuickAdapter.RequestLoadMoreListener {
-    private CompositeSubscription mCompositeSubscription;
+public class WorksFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener {
     private String mBoardId;
     private final int PAGESIZE = 20;
     private int mDataCountLastRequested = 20;
@@ -192,16 +189,6 @@ public class WorksFragment extends Fragment implements BaseQuickAdapter.RequestL
         }
     }
 
-    public void addSubscription(Subscription subscription) {
-        if (subscription == null) {
-            return;
-        }
-        if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
-        }
-        this.mCompositeSubscription.add(subscription);
-    }
-
     /**
      * 判断当前数据是否已经加载完毕和加没有更多了的FooterView
      */
@@ -225,14 +212,6 @@ public class WorksFragment extends Fragment implements BaseQuickAdapter.RequestL
         }
         mAdapter.loadComplete();
         mAdapter.addFooterView(mFooterView);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (this.mCompositeSubscription != null) {
-            this.mCompositeSubscription.unsubscribe();
-        }
     }
 
     @Override

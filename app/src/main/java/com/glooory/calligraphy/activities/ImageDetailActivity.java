@@ -109,10 +109,10 @@ public class ImageDetailActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (mImgType == IMG_TYPE_URL) {
-            getMenuInflater().inflate(R.menu.activity_image_detail, menu);
-            return true;
-        }
+//        if (mImgType == IMG_TYPE_URL) {
+//            getMenuInflater().inflate(R.menu.activity_image_detail, menu);
+//            return true;
+//        }
         return super.onCreateOptionsMenu(menu);
     }
 
