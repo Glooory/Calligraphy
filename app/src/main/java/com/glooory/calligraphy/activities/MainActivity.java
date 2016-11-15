@@ -1,13 +1,11 @@
 package com.glooory.calligraphy.activities;
 
+import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,96 +13,108 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.glooory.calligraphy.Constants.Constants;
+import com.glooory.calligraphy.BuildConfig;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.Utils.NetworkUtil;
+import com.glooory.calligraphy.entity.VersionInfoBean;
+import com.glooory.calligraphy.net.UpdateRequest;
+import com.glooory.calligraphy.service.UpdateService;
+import com.glooory.calligraphy.utils.NetworkUtil;
+import com.orhanobut.logger.Logger;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionNo;
+import com.yanzhenjie.permission.PermissionYes;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+/**
+ * Created by Glooory on 2016/5/9 0015.
+ */
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+    @BindView(R.id.nav_view)
+    NavigationView mNavView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.card_italy)
+    CardView mItalyCard;
+    @BindView(R.id.card_roundhand)
+    CardView mRoundhandCard;
+    @BindView(R.id.card_handprinted)
+    CardView mHandprintedCard;
+    @BindView(R.id.card_copperplate)
+    CardView mCopperplateCard;
+    @BindView(R.id.toolbar_main)
+    Toolbar mToolbar;
 
-    private static final String DECLARATION = "declaration";
-    private Toolbar mToolbar;
-    private DrawerLayout drawer;
-    private NavigationView navigationView;
-    private boolean showDeclaration;
-    private CardView roundhandCard;
-    private CardView italyCard;
-    private CardView handprintedCard;
-    private CardView copperplateCard;
+    private static final int EXTERNAL_REQUEST_CODE = 33;
+    private VersionInfoBean mVersionInfoBean;
     private long exitTime = 0;
+    //请求权限的监听
+    private RationaleListener mRationaleListener = new RationaleListener() {
+        @Override
+        public void showRequestPermissionRationale(int requestCode, final Rationale rationale) {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle(R.string.external_permission_tip)
+                    .setMessage(R.string.external_permission_des)
+                    .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            rationale.resume();
+                        }
+                    })
+                    .setNegativeButton("我拒绝", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            rationale.cancel();
+                        }
+                    }).show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        setupToolbar();
-        setupDrawer();
+        ButterKnife.bind(this);
         initViews();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        showDeclaration = sharedPreferences.getBoolean(DECLARATION, true);
-        if (showDeclaration) {
-            showDeclarationDialog();
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-            editor.putBoolean(DECLARATION, false);
-            editor.commit();
-        }
-    }
-
-    private void setupToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
-
-    private void setupDrawer() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        checkUpdate();
     }
 
     private void initViews() {
-        roundhandCard = (CardView) findViewById(R.id.card_roundhand);
-        italyCard = (CardView) findViewById(R.id.card_italy);
-        handprintedCard = (CardView) findViewById(R.id.card_handprinted);
-        copperplateCard = (CardView) findViewById(R.id.card_copperplate);
-        roundhandCard.setOnClickListener(this);
-        italyCard.setOnClickListener(this);
-        handprintedCard.setOnClickListener(this);
-        copperplateCard.setOnClickListener(this);
-    }
+        setSupportActionBar(mToolbar);
 
-    private void showDeclarationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("声明")
-                .setMessage(getString(R.string.declaration))
-                .setCancelable(false)
-                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
-                    }
-                });
-        builder.create().show();
+        mNavView.setNavigationItemSelectedListener(this);
+
+        mRoundhandCard.setOnClickListener(this);
+        mItalyCard.setOnClickListener(this);
+        mHandprintedCard.setOnClickListener(this);
+        mCopperplateCard.setOnClickListener(this);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            }  else {
+            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            } else {
                 if (System.currentTimeMillis() - exitTime > 2000) {
                     Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
                     exitTime = System.currentTimeMillis();
@@ -121,28 +131,6 @@ public class MainActivity extends BaseActivity
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_declaration) {
-            showDeclarationDialog();
-        }
-        
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -150,50 +138,17 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_calligraphy) {
-            Intent intentCalli = new Intent(MainActivity.this, UniversalActivity.class);
-            intentCalli.putExtra(Constants.FRAGMENT_INDEX, Constants.CALLIFRAG);
-            lanuchActivity(intentCalli);
+            UniversalActivity.launch(MainActivity.this, UniversalActivity.CONTENT_CALLIGRAPHY);
         } else if (id == R.id.nav_other_font) {
-            Intent intentOther = new Intent(MainActivity.this, UniversalActivity.class);
-            intentOther.putExtra(Constants.FRAGMENT_INDEX, Constants.OTHERFRAG);
-            lanuchActivity(intentOther);
+            UniversalActivity.launch(MainActivity.this, UniversalActivity.CONTENT_OTHER_FONTS);
         } else if (id == R.id.nav_flourishing) {
-            Intent intentFlouri = new Intent(MainActivity.this, UniversalActivity.class);
-            intentFlouri.putExtra(Constants.FRAGMENT_INDEX, Constants.FLOURIFRAG);
-            lanuchActivity(intentFlouri);
-        } else if (id == R.id.nav_more_piece) {
-            SharedPreferences spf = PreferenceManager.getDefaultSharedPreferences(this);
-            boolean isFirstTime = spf.getBoolean(WorksActivity.FIRST_TIME, true);
-            if (isFirstTime && !NetworkUtil.isOnline(this)) {
-                Toast.makeText(this, "网络不可用，请检查后重试。", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-            if (isFirstTime && NetworkUtil.isMobileData(this)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("你正在使用的是数据流量，后面需要加载的图片较多，确定继续？")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startWorksActivity();
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
-                            }
-                        })
-                        .setCancelable(false);
-                builder.create().show();
-            } else {
-                startWorksActivity();
-            }
-
+            UniversalActivity.launch(MainActivity.this, UniversalActivity.CONTENT_FLOURISHING);
+        } else if (id == R.id.nav_works) {
+            WorksActivity.launch(MainActivity.this);
+        } else if (id == R.id.nav_about) {
+            UniversalActivity.launch(MainActivity.this, UniversalActivity.CONTENT_ABOUT);
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -201,19 +156,13 @@ public class MainActivity extends BaseActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.card_italy:
-                Intent intentItalic = new Intent(MainActivity.this, FontActivity.class);
-                intentItalic.putExtra(Constants.ACTIVITY_INDEX, Constants.ACTIVITY_ITALIC_INDEX);
-                lanuchActivity(intentItalic);
+                launchFontActivity(FontActivity.FONT_ITALIC);
                 break;
             case R.id.card_roundhand:
-                Intent intentRoundhand = new Intent(MainActivity.this, FontActivity.class);
-                intentRoundhand.putExtra(Constants.ACTIVITY_INDEX, Constants.ACTIVITY_ROUNDHAND_INDEX);
-                lanuchActivity(intentRoundhand);
+                launchFontActivity(FontActivity.FONT_ROUND_HAND);
                 break;
             case R.id.card_handprinted:
-                Intent intentHandprinted = new Intent(MainActivity.this, FontActivity.class);
-                intentHandprinted.putExtra(Constants.ACTIVITY_INDEX, Constants.ACTIVITY_HANDPRINTED_INDEX);
-                lanuchActivity(intentHandprinted);
+                launchFontActivity(FontActivity.FONT_HAND_PRINTED);
                 break;
             case R.id.card_copperplate:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -229,21 +178,91 @@ public class MainActivity extends BaseActivity
                 alertDialog.show();
                 break;
         }
-
     }
 
-    private void startWorksActivity() {
-        Intent intentMoreWorks = new Intent(MainActivity.this, WorksActivity.class);
-        intentMoreWorks.putExtra(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
-        lanuchActivity(intentMoreWorks);
+    private void launchFontActivity(int fontType) {
+        FontActivity.launch(MainActivity.this, fontType);
     }
 
-    private void lanuchActivity(Intent intent) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            startActivity(intent,
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-        } else {
-            startActivity(intent);
+    private void checkUpdate() {
+        if (!NetworkUtil.isOnline(this)) {
+            return;
         }
+        Subscription s = UpdateRequest.getUpdateApi()
+                .checkUpdateInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<VersionInfoBean>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.d(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(VersionInfoBean bean) {
+                        if (isShowUpdateDialog(bean)) {
+                            showUpdateDialog(bean);
+                            mVersionInfoBean = bean;
+                        }
+                    }
+                });
+        addSubscription(s);
+    }
+
+    private boolean isShowUpdateDialog(VersionInfoBean bean) {
+        return bean.getVersioncode() > BuildConfig.VERSION_CODE;
+    }
+
+    public void showUpdateDialog(final VersionInfoBean bean) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle(R.string.new_version_available)
+                .setMessage(String.format(getString(R.string.new_version_des), bean.getVersionname(), bean.getReleaseinfo(), bean.getSize()))
+                .setCancelable(false)
+                .setPositiveButton(R.string.download_new_version, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            AndPermission.with(MainActivity.this)
+                                    .requestCode(EXTERNAL_REQUEST_CODE)
+                                    .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    .rationale(mRationaleListener)
+                                    .send();
+                        } else {
+                            actionDownload(mVersionInfoBean);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancle, null);
+        builder.create().show();
+    }
+
+    private void actionDownload(VersionInfoBean bean) {
+        UpdateService.launch(MainActivity.this,
+                bean.getFilename());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    /**
+     * 请求获取 External 权限成功的回调
+     */
+    @PermissionYes(EXTERNAL_REQUEST_CODE)
+    private void getWriteExternalYes() {
+        actionDownload(mVersionInfoBean);
+    }
+
+    /**
+     * 请求读写 External 权限失败的回调
+     */
+    @PermissionNo(EXTERNAL_REQUEST_CODE)
+    private void getWriteExternalNo() {
+        Toast.makeText(getApplicationContext(), R.string.external_permission_failed, Toast.LENGTH_LONG).show();
     }
 }

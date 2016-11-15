@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical|center_horizontal"
+    android:padding="16dp"
+    android:orientation="horizontal">
+
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/progressbar_loadmore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/rotate_loadmore_windmild"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:gravity="center_vertical"
+        android:text="正在加载"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="14sp" />
+
+</LinearLayout>

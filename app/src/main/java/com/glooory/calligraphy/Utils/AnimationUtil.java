@@ -1,4 +1,4 @@
-package com.glooory.calligraphy.Utils;
+package com.glooory.calligraphy.utils;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.animation.DecelerateInterpolator;
 
 /**
- * Created by Glooo on 2016/5/9 0009.
+ * Created by Glooory on 2016/5/9 0009.
  */
 public class AnimationUtil {
 

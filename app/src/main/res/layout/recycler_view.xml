@@ -3,7 +3,9 @@
     android:id="@+id/recycer_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="8dp"
+    android:clipToPadding="false">
 
 </android.support.v7.widget.RecyclerView>

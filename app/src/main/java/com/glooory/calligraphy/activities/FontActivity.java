@@ -1,140 +1,140 @@
 package com.glooory.calligraphy.activities;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
-import com.glooory.calligraphy.Constants.Constants;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.fragments.HdprintedAlpFragment;
+import com.glooory.calligraphy.fragments.AlphabetFragment;
 import com.glooory.calligraphy.fragments.HdprintedDesFragment;
 import com.glooory.calligraphy.fragments.HdprintedTipsFragment;
-import com.glooory.calligraphy.fragments.ItalicAlpFragment;
 import com.glooory.calligraphy.fragments.ItalicDesFragment;
 import com.glooory.calligraphy.fragments.ItalicTipsFragment;
-import com.glooory.calligraphy.fragments.RdhandAlpFragment;
 import com.glooory.calligraphy.fragments.RdhandDesFragment;
 import com.glooory.calligraphy.fragments.RdhandTipsFragment;
 
-import it.neokree.materialtabs.MaterialTab;
-import it.neokree.materialtabs.MaterialTabHost;
-import it.neokree.materialtabs.MaterialTabListener;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
- * Created by Glooo on 2016/6/15 0015.
+ * Created by Glooory on 2016/11/11 0011 10:31.
  */
-public class FontActivity extends BaseActivity implements MaterialTabListener {
-    public static final int TAB_DES = 0;
-    public static final int TAB_ALP = 1;
-    public static final int TAB_TIPS = 2;
-    private Toolbar mToolbar;
-    private MaterialTabHost mTabHost;
-    private ViewPager mPager;
-    private ViewPagerAdapter mAdapter;
-    private int activityType = 0;
-    Fragment fragment;
 
+public class FontActivity extends BaseActivity {
+    public static final String FONT_TYPE_INDEX = "font_type";
+    public static final int FONT_ITALIC = 0;
+    public static final int FONT_ROUND_HAND = 1;
+    public static final int FONT_HAND_PRINTED = 2;
+
+    @BindView(R.id.toolbar_font)
+    Toolbar mToolbar;
+    @BindView(R.id.table_layout_font)
+    TabLayout mTabLayout;
+    @BindView(R.id.view_pager_font)
+    ViewPager mViewPager;
+
+    private int mFontType;
+    private String[] mFontTitles = new String[4];
+    private FontPagerAdapter mAdapter;
+
+    public static void launch(Activity activity, int fontType) {
+        Intent intent = new Intent(activity, FontActivity.class);
+        intent.putExtra(FONT_TYPE_INDEX, fontType);
+        if (Build.VERSION.SDK_INT >= 21) {
+            activity.startActivity(intent,
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle());
+        } else {
+            activity.startActivity(intent);
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_font);
-        activityType = getIntent().getIntExtra(Constants.ACTIVITY_INDEX, 0);
-        setupToolbar();
-        setupTabs();
+        ButterKnife.bind(this);
+        mFontType = getIntent().getIntExtra(FONT_TYPE_INDEX, FONT_ITALIC);
+        mFontTitles = getResources().getStringArray(R.array.fonts);
+        initView();
     }
 
-    private void setupToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.font_toolbar);
+    private void initView() {
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        switch (activityType) {
-            case Constants.ACTIVITY_ITALIC_INDEX:
-                this.setTitle(R.string.font_italic);
-                break;
-            case Constants.ACTIVITY_ROUNDHAND_INDEX:
-                this.setTitle(R.string.font_round_hand);
-                break;
-            case Constants.ACTIVITY_HANDPRINTED_INDEX:
-                this.setTitle(R.string.font_hand_printed);
-                break;
-        }
-    }
+        getSupportActionBar().setTitle(mFontTitles[mFontType]);
 
-    private void setupTabs() {
-        mTabHost = (MaterialTabHost) findViewById(R.id.italy_material_tab_host);
-        mPager = (ViewPager) findViewById(R.id.italy_view_pager);
-        mAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mAdapter);
-        mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        mAdapter = new FontPagerAdapter(getSupportFragmentManager(), mFontType);
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setAdapter(mAdapter);
+
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.white));
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onPageSelected(int position) {
-                mTabHost.setSelectedNavigationItem(position);
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
-        for (int i = 0; i < mAdapter.getCount(); i++) {
-            mTabHost.addTab(mTabHost.newTab().setText(getResources().getStringArray(R.array.tab_titles)[i]).setTabListener(this));
-        }
     }
 
+    class FontPagerAdapter extends FragmentPagerAdapter{
+        private int fontTypeIndex;
+        private String[] titles = new String[3];
 
-
-    @Override
-    public void onTabSelected(MaterialTab tab) {
-        mPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabReselected(MaterialTab tab) {
-
-    }
-
-    @Override
-    public void onTabUnselected(MaterialTab tab) {
-
-    }
-
-    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
-
-        FragmentManager fragmentManager;
-        public ViewPagerAdapter(FragmentManager fm) {
+        public FontPagerAdapter(FragmentManager fm, int fontType) {
             super(fm);
-            this.fragmentManager = fm;
+            this.fontTypeIndex = fontType;
+            titles = getApplicationContext().getResources().getStringArray(R.array.font_content_titles);
         }
 
         @Override
         public Fragment getItem(int position) {
+            Fragment fragment = null;
             switch (position) {
-                case TAB_DES:
-                    if (activityType == Constants.ACTIVITY_ITALIC_INDEX) {
-                        fragment = new ItalicDesFragment();
-                    } else if (activityType == Constants.ACTIVITY_ROUNDHAND_INDEX) {
-                        fragment = new RdhandDesFragment();
-                    } else if (activityType == Constants.ACTIVITY_HANDPRINTED_INDEX) {
-                        fragment = new HdprintedDesFragment();
+                case 0:
+                    if (fontTypeIndex == FONT_ITALIC) {
+                        fragment = ItalicDesFragment.newInstance();
+                    } else if (fontTypeIndex == FONT_ROUND_HAND) {
+                        fragment = RdhandDesFragment.newInstance();
+                    } else if (fontTypeIndex == FONT_HAND_PRINTED) {
+                        fragment = HdprintedDesFragment.newInstance();
                     }
                     break;
-                case TAB_ALP:
-                    if (activityType == Constants.ACTIVITY_ITALIC_INDEX) {
-                        fragment = new ItalicAlpFragment();
-                    } else if (activityType == Constants.ACTIVITY_ROUNDHAND_INDEX) {
-                        fragment = new RdhandAlpFragment();
-                    } else if (activityType == Constants.ACTIVITY_HANDPRINTED_INDEX) {
-                        fragment = new HdprintedAlpFragment();
+                case 1:
+                    if (fontTypeIndex == FONT_ITALIC) {
+                        fragment = AlphabetFragment.newInstance(FONT_ITALIC);
+                    } else if (fontTypeIndex == FONT_ROUND_HAND) {
+                        fragment = AlphabetFragment.newInstance(FONT_ROUND_HAND);
+                    } else if (fontTypeIndex == FONT_HAND_PRINTED) {
+                        fragment = AlphabetFragment.newInstance(FONT_HAND_PRINTED);
                     }
                     break;
-                case TAB_TIPS:
-                    if (activityType == Constants.ACTIVITY_ITALIC_INDEX) {
-                        fragment = new ItalicTipsFragment();
-                    } else if (activityType == Constants.ACTIVITY_ROUNDHAND_INDEX) {
-                        fragment = new RdhandTipsFragment();
-                    } else if (activityType == Constants.ACTIVITY_HANDPRINTED_INDEX) {
-                        fragment = new HdprintedTipsFragment();
+                case 2:
+                    if (fontTypeIndex == FONT_ITALIC) {
+                        fragment = ItalicTipsFragment.newInstance();
+                    } else if (fontTypeIndex == FONT_ROUND_HAND) {
+                        fragment = RdhandTipsFragment.newInstance();
+                    } else if (fontTypeIndex == FONT_HAND_PRINTED) {
+                        fragment = HdprintedTipsFragment.newInstance();
                     }
                     break;
             }
@@ -146,6 +146,9 @@ public class FontActivity extends BaseActivity implements MaterialTabListener {
             return 3;
         }
 
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
     }
-
 }

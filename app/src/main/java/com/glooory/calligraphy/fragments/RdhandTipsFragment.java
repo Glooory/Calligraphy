@@ -9,29 +9,35 @@ import android.widget.ImageView;
 
 import com.glooory.calligraphy.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
- * Created by Glooo on 2016/5/9 0009.
+ * Created by Glooory on 2016/5/9 0009.
  */
-public class RdhandTipsFragment extends BaseTipsFragment implements View.OnClickListener {
-    private ImageView tip1Image;
-    private ImageView tip2Image;
-    private ImageView tip3Image;
-    private ImageView tip4Image;
+public class RdhandTipsFragment extends BaseFragment implements View.OnClickListener {
+    @BindView(R.id.roundhand_tip_1_image)
+    ImageView mTipOneImage;
+    @BindView(R.id.roundhand_tip_2_image)
+    ImageView mTipTwoImage;
+    @BindView(R.id.roundhand_tip_3_image)
+    ImageView mTipThreeImage;
+    @BindView(R.id.roundhand_tip_4_image)
+    ImageView mTipFourImage;
+
+    public static RdhandTipsFragment newInstance() {
+        return new RdhandTipsFragment();
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.roundhand_tips, container, false);
-
-        tip1Image = (ImageView) rootView.findViewById(R.id.roundhand_tip_1_image);
-        tip2Image = (ImageView) rootView.findViewById(R.id.roundhand_tip_2_image);
-        tip3Image = (ImageView) rootView.findViewById(R.id.roundhand_tip_3_image);
-        tip4Image = (ImageView) rootView.findViewById(R.id.roundhand_tip_4_image);
-        tip1Image.setOnClickListener(this);
-        tip2Image.setOnClickListener(this);
-        tip3Image.setOnClickListener(this);
-        tip4Image.setOnClickListener(this);
-
+        View rootView = inflater.inflate(R.layout.fragment_roundhand_tips, container, false);
+        ButterKnife.bind(this, rootView);
+        mTipOneImage.setOnClickListener(this);
+        mTipTwoImage.setOnClickListener(this);
+        mTipThreeImage.setOnClickListener(this);
+        mTipFourImage.setOnClickListener(this);
         return rootView;
     }
 
@@ -39,16 +45,16 @@ public class RdhandTipsFragment extends BaseTipsFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.roundhand_tip_1_image:
-                startImgActivity(tip1Image, R.drawable.roundhand_tip_image_1_480);
+                startImgDetailActivity(mTipOneImage, R.drawable.roundhand_tip_image_1_480);
                 break;
             case R.id.roundhand_tip_2_image:
-                startImgActivity(tip2Image, R.drawable.roundhand_tip_image_2_480);
+                startImgDetailActivity(mTipTwoImage, R.drawable.roundhand_tip_image_2_480);
                 break;
             case R.id.roundhand_tip_3_image:
-                startImgActivity(tip3Image, R.drawable.roundhand_tip_image_3_480);
+                startImgDetailActivity(mTipThreeImage, R.drawable.roundhand_tip_image_3_480);
                 break;
             case R.id.roundhand_tip_4_image:
-                startImgActivity(tip4Image, R.drawable.roundhand_tip_image_4_480);
+                startImgDetailActivity(mTipFourImage, R.drawable.roundhand_tip_image_4_480);
                 break;
         }
     }

@@ -1,149 +1,237 @@
 package com.glooory.calligraphy.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.glooory.calligraphy.Callbacks.FileCacheListener;
-import com.glooory.calligraphy.Callbacks.HttpCallbackListener;
-import com.glooory.calligraphy.Constants.Constants;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.glooory.calligraphy.R;
-import com.glooory.calligraphy.Utils.FileUtil;
-import com.glooory.calligraphy.Utils.NetworkUtil;
-import com.glooory.calligraphy.activities.WorksActivity;
+import com.glooory.calligraphy.activities.ImageDetailActivity;
 import com.glooory.calligraphy.adapters.WorksAdapter;
-import com.glooory.calligraphy.modul.CalliWork;
-import com.glooory.calligraphy.widgets.SpaceItemDecoration;
+import com.glooory.calligraphy.api.PinsApi;
+import com.glooory.calligraphy.api.RetrofitClient;
+import com.glooory.calligraphy.callbacks.FragmentRefreshListener;
+import com.glooory.calligraphy.constants.Constants;
+import com.glooory.calligraphy.entity.PinsBean;
+import com.glooory.calligraphy.entity.PinsListBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Glooo on 2016/7/13 0013.
- */
-public class WorksFragment extends Fragment
-        implements SwipeRefreshLayout.OnRefreshListener,
-        HttpCallbackListener, FileCacheListener {
-    private Context mContext;
-    private SwipeRefreshLayout mSwipeLayout;
-    private RecyclerView mRecyclerView;
-    private WorksAdapter mAdapter;
-    private int worksIndex;
-    public static List<CalliWork> mWorks = new ArrayList<>();
-    private boolean isFirstTime;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
-    public static WorksFragment newInstance(int type) {
+/**
+ * Created by Glooory on 2016/11/5 0005 17:20.
+ */
+
+public class WorksFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener {
+    private String mBoardId;
+    private final int PAGESIZE = 20;
+    private int mDataCountLastRequested = 20;
+    private String mMaxId;
+    private WorksAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private View mFooterView;
+    private Context mContext;
+    private FragmentRefreshListener mListener;
+
+    public static WorksFragment newInstanse(int worksTypeIndex) {
+        Bundle args = new Bundle();
+        args.putInt(Constants.WORKS_INDEX, worksTypeIndex);
         WorksFragment fragment = new WorksFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Constants.WORKS_INDEX, type);
-        fragment.setArguments(bundle);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
+        this.mContext = context;
+        mListener = (FragmentRefreshListener) context;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        worksIndex = getArguments().getInt(Constants.WORKS_INDEX);
-        NetworkUtil.loadPins(mContext, this);
-        clearWorksList();
-        isFirstTime = PreferenceManager.getDefaultSharedPreferences(mContext)
-                .getBoolean(WorksActivity.FIRST_TIME, true);
+        int worksTypeIndex = getArguments().getInt(Constants.WORKS_INDEX, Constants.WORKS_NORMAL_INDEX);
+        if (worksTypeIndex == Constants.WORKS_NORMAL_INDEX) {
+            mBoardId = Constants.CALLI_BOARD_ID;
+        } else {
+            mBoardId = Constants.FLOURISHING_BOARD_ID;
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.swipe_layout, container, false);
-        mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycer_view);
-        mSwipeLayout.setColorSchemeResources(R.color.color_scheme_1_1, R.color.color_scheme_1_2
-                ,R.color.color_scheme_1_3, R.color.color_scheme_1_4);
-        mSwipeLayout.measure(View.MEASURED_SIZE_MASK, View.MEASURED_HEIGHT_STATE_SHIFT);
-        mSwipeLayout.setOnRefreshListener(this);
-        if (isFirstTime) {
-            mSwipeLayout.setRefreshing(true);
-        }
-        mAdapter = new WorksAdapter(mContext, worksIndex);
-        mAdapter.setWorkList(mWorks);
-        StaggeredGridLayoutManager mManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(mManager);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(16));
-        mRecyclerView.setPadding(8, 0, 8, 0);
+        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.view_recycler_view, container, false);
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        initAdapter();
         mRecyclerView.setAdapter(mAdapter);
-        return rootView;
+        mFooterView = inflater.inflate(R.layout.view_no_more_data_footer, null);
+        httpForFirstTime();
+        return mRecyclerView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (isFirstTime) {
-            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-            editor.putBoolean(WorksActivity.FIRST_TIME, false);
-            editor.commit();
+    private void initAdapter() {
+        mAdapter = new WorksAdapter(mContext);
+        //设置上滑自动建在的正在加载更多的自定义View
+        View loadMoreView = LayoutInflater.from(mContext).inflate(R.layout.custom_loadmore_view, mRecyclerView, false);
+        mAdapter.setLoadingView(loadMoreView);
+
+        //当当前position等于PAGE_SIZE 时，就回调用onLoadMoreRequested() 自动加载下一页数据
+        mAdapter.openLoadMore(PAGESIZE);
+        mAdapter.openLoadAnimation();
+        mAdapter.setOnLoadMoreListener(this);
+
+        mRecyclerView.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void SimpleOnItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                ImageDetailActivity.launch(getActivity(),
+                        (ImageView) view.findViewById(R.id.card_works_img),
+                        mAdapter.getItem(i).getFile().getKey());
+            }
+        });
+    }
+
+    private void httpForFirstTime() {
+        if (mListener != null) {
+            mListener.requestRefresh();
+        }
+        Subscription s = RetrofitClient.createService(PinsApi.class)
+                .getPinsList(mBoardId, 20)
+                .map(new Func1<PinsListBean, List<PinsBean>>() {
+                    @Override
+                    public List<PinsBean> call(PinsListBean pinsListBean) {
+                        return pinsListBean.getPins();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<PinsBean>>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mListener != null) {
+                            mListener.requestRefreshDone();
+                        }
+                        checkIfAddFooter();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (mListener != null) {
+                            mListener.requestRefreshDone();
+                        }
+                        Toast.makeText(mContext, "加载出错！", Toast.LENGTH_LONG).show();
+                        checkIfAddFooter();
+                    }
+
+                    @Override
+                    public void onNext(List<PinsBean> pinsBeen) {
+                        mAdapter.setNewData(pinsBeen);
+                        saveMaxId(pinsBeen);
+                    }
+                });
+        addSubscription(s);
+    }
+
+    private void httpForMore() {
+        Subscription s = RetrofitClient.createService(PinsApi.class)
+                .getPinsListMax(mBoardId, mMaxId, 20)
+                .map(new Func1<PinsListBean, List<PinsBean>>() {
+                    @Override
+                    public List<PinsBean> call(PinsListBean pinsListBean) {
+                        return pinsListBean.getPins();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<PinsBean>>() {
+                    @Override
+                    public void onCompleted() {
+                        checkIfAddFooter();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Toast.makeText(mContext, "加载出错！", Toast.LENGTH_LONG).show();
+                        checkIfAddFooter();
+                    }
+
+                    @Override
+                    public void onNext(List<PinsBean> pinsBeen) {
+                        mAdapter.addData(pinsBeen);
+                        saveMaxId(pinsBeen);
+                    }
+                });
+        addSubscription(s);
+    }
+
+    private void saveMaxId(List<PinsBean> list) {
+        if (list != null) {
+            if (list.size() > 0) {
+                mMaxId = list.get(list.size() - 1).getPin_id();
+                mDataCountLastRequested = list.size();
+            }
         }
     }
 
-    @Override
-    public void onRefresh() {
-//        Logger.d("Fragment中的onRefesh回调方法");
-        if (NetworkUtil.isOnline(mContext)) {
-            NetworkUtil.loadPins(mContext, this);
-        } else {
-            Toast.makeText(mContext, "网络不可用，请检查网络设置。", Toast.LENGTH_SHORT).show();
-            mSwipeLayout.setRefreshing(false);
+    /**
+     * 判断当前数据是否已经加载完毕和加没有更多了的FooterView
+     */
+    public void checkIfAddFooter() {
+        if (mDataCountLastRequested < PAGESIZE) {
+            mRecyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    setAdapterLoadComplete();
+                }
+            });
         }
     }
 
-
-    @Override
-    public void readCacheFinish(List<CalliWork> workList) {
-//        Logger.d("Fragment中的readCacheFinish回调方法");
-        clearWorksList();
-        this.mWorks = workList;
-        mAdapter.setWorkList(workList);
-        mSwipeLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void readCacheError(Exception e) {
-//        Logger.d("Fragment中的readCacheError回调方法");
-        mSwipeLayout.setRefreshing(false);
-        Toast.makeText(mContext, "解析数据失败，请重试。", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onHttpRequestFinish() {
-//        Logger.d("Fragment中的HTTP请求成功的回调方法");
-        FileUtil.readPins(mContext, worksIndex, this);
-//        Logger.d(mContext == null);
-    }
-
-    @Override
-    public void onHttpRequestError(Exception e) {
-//        Logger.d("Fragment中的HTTP请求失败的回调方法");
-        Toast.makeText(mContext, "网络请求失败，请稍后重试。", Toast.LENGTH_SHORT).show();
-        mSwipeLayout.setRefreshing(false);
-    }
-
-    public void clearWorksList() {
-        if (mWorks != null) {
-            mWorks.clear();
+    /**
+     * 数据加载完毕，adapter加上footerview
+     */
+    public void setAdapterLoadComplete() {
+        if (mFooterView.getParent() != null) {
+            ((ViewGroup) mFooterView.getParent()).removeView(mFooterView);
         }
+        mAdapter.loadComplete();
+        mAdapter.addFooterView(mFooterView);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        mRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mDataCountLastRequested < PAGESIZE) {
+                    setAdapterLoadComplete();
+                } else {
+                    httpForMore();
+                }
+            }
+        });
+    }
+
+    /**
+     * 刷新当前子类的数据，提供给Activity调用
+     */
+    public void refreshData(){
+        httpForFirstTime();
     }
 }

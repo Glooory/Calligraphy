@@ -6,16 +6,15 @@ import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.widget.ImageView;
 
 import com.glooory.calligraphy.R;
 
 /**
- * Created by Glooo on 2016/7/17 0017.
+ * Created by Glooory on 2016/7/17 0017.
  */
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
     private ImageView mWelcomeImg;
 
     @Override

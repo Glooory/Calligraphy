@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="urlHttpRoot">http://api.huaban.com/</string>
+    <string name="urlImageRoot">http://img.hb.aicdn.com/</string>
+    <string name="format_url_image_general">http://img.hb.aicdn.com/%s_fw320sf</string>
+    <string name="format_url_image_big">http://img.hb.aicdn.com/%s_fw658</string>
+</resources>

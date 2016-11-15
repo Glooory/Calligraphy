@@ -9,37 +9,41 @@ import android.widget.ImageView;
 
 import com.glooory.calligraphy.R;
 
-/**
- * Created by Glooo on 2016/5/10 0010.
- */
-public class ItalicTipsFragment extends BaseTipsFragment implements View.OnClickListener {
-    private ImageView tip3Image;
-    private ImageView tip4ImageA;
-    private ImageView tip4ImageB;
-    private ImageView tip4ImageC;
-    private ImageView tip4ImageD;
-    private ImageView tip4ImageE;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
+/**
+ * Created by Glooory on 2016/5/10 0010.
+ */
+public class ItalicTipsFragment extends BaseFragment implements View.OnClickListener {
+    @BindView(R.id.italic_tip_3_image)
+    ImageView mTipThreeImage;
+    @BindView(R.id.italic_tip_4_a_image)
+    ImageView mTipFourAImage;
+    @BindView(R.id.italic_tip_4_b_image)
+    ImageView mTipFourBImage;
+    @BindView(R.id.italic_tip_4_c_image)
+    ImageView mTipFourCImage;
+    @BindView(R.id.italic_tip_4_d_image)
+    ImageView mTipFourDImage;
+    @BindView(R.id.italic_tip_4_e_image)
+    ImageView mTipFourEImage;
+
+    public static ItalicTipsFragment newInstance() {
+        return new ItalicTipsFragment();
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.italic_tips, container, false);
-
-        tip3Image = (ImageView) rootView.findViewById(R.id.italic_tip_3_image);
-        tip4ImageA = (ImageView) rootView.findViewById(R.id.italic_tip_4_a_image);
-        tip4ImageB = (ImageView) rootView.findViewById(R.id.italic_tip_4_b_image);
-        tip4ImageC = (ImageView) rootView.findViewById(R.id.italic_tip_4_c_image);
-        tip4ImageD = (ImageView) rootView.findViewById(R.id.italic_tip_4_d_image);
-        tip4ImageE = (ImageView) rootView.findViewById(R.id.italic_tip_4_e_image);
-
-        tip3Image.setOnClickListener(this);
-        tip4ImageA.setOnClickListener(this);
-        tip4ImageB.setOnClickListener(this);
-        tip4ImageC.setOnClickListener(this);
-        tip4ImageD.setOnClickListener(this);
-        tip4ImageE.setOnClickListener(this);
-
+        View rootView = inflater.inflate(R.layout.fragment_italic_tips, container, false);
+        ButterKnife.bind(this, rootView);
+        mTipThreeImage.setOnClickListener(this);
+        mTipFourAImage.setOnClickListener(this);
+        mTipFourBImage.setOnClickListener(this);
+        mTipFourCImage.setOnClickListener(this);
+        mTipFourDImage.setOnClickListener(this);
+        mTipFourEImage.setOnClickListener(this);
         return rootView;
     }
 
@@ -47,22 +51,22 @@ public class ItalicTipsFragment extends BaseTipsFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.italic_tip_3_image:
-                startImgActivity(tip3Image, R.drawable.italy_f_640);
+                startImgDetailActivity(mTipThreeImage, R.drawable.italy_f_640);
                 break;
             case R.id.italic_tip_4_a_image:
-                startImgActivity(tip4ImageA, R.drawable.italy_tip_4_a_480);
+                startImgDetailActivity(mTipFourAImage, R.drawable.italy_tip_4_a_480);
                 break;
             case R.id.italic_tip_4_b_image:
-                startImgActivity(tip4ImageB, R.drawable.italy_tip_4_b_480);
+                startImgDetailActivity(mTipFourBImage, R.drawable.italy_tip_4_b_480);
                 break;
             case R.id.italic_tip_4_c_image:
-                startImgActivity(tip4ImageC, R.drawable.italy_tip_4_c_480);
+                startImgDetailActivity(mTipFourCImage, R.drawable.italy_tip_4_c_480);
                 break;
             case R.id.italic_tip_4_d_image:
-                startImgActivity(tip4ImageD, R.drawable.italy_tip_4_d_480);
+                startImgDetailActivity(mTipFourDImage, R.drawable.italy_tip_4_d_480);
                 break;
             case R.id.italic_tip_4_e_image:
-                startImgActivity(tip4ImageE, R.drawable.italy_tip_4_e_480);
+                startImgDetailActivity(mTipFourEImage, R.drawable.italy_tip_4_e_480);
                 break;
         }
     }
