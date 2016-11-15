@@ -17,7 +17,7 @@ import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.activities.ImageDetailActivity;
 import com.glooory.calligraphy.adapters.WorksAdapter;
 import com.glooory.calligraphy.api.PinsApi;
-import com.glooory.calligraphy.api.RetrofitClient;
+import com.glooory.calligraphy.net.RetrofitClient;
 import com.glooory.calligraphy.callbacks.FragmentRefreshListener;
 import com.glooory.calligraphy.constants.Constants;
 import com.glooory.calligraphy.entity.PinsBean;

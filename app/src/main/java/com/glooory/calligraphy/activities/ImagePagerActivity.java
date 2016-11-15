@@ -11,13 +11,9 @@ import android.support.v7.widget.Toolbar;
 
 import com.glooory.calligraphy.R;
 import com.glooory.calligraphy.adapters.ImagePagerAdapter;
-<<<<<<< HEAD
-import com.glooory.calligraphy.widgets.PinchImageViewPager;
-=======
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
->>>>>>> reconstruction
 
 /**
  * Created by Glooory on 2016/5/16 0016.
