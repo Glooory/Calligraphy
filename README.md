@@ -4,8 +4,6 @@
 
 Calligraphy 是一款简单的介绍英文书法的应用，目前收录了三种英文字体。
 
-目前正在重构本项目，随时更新。
-
 #### 界面预览
 
 ---
@@ -21,6 +19,10 @@ Calligraphy 是一款简单的介绍英文书法的应用，目前收录了三�
 ​    <img src="/screenshots/alphabet.png" width = "240" hspace="16" vspace="16">
 ​    <img src="/screenshots/tips.png" width = "240" hspace="16" vspace="16">
 </figure>
+
+#### 体验
+
+<img src="/screenshots/yinwen_shufa_jianjie.png" width = "150" height = "150" align=center hspace="16" vspace="16"/> or  [戳我下载 APK ](http://glooory.com/apps/Calligraphy/yingwen_shufa_jianjie_1.0.0_universal.apk)
 
 #### License
 
